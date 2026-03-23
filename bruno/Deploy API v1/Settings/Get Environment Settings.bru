@@ -1,0 +1,21 @@
+meta {
+  name: Get Environment Settings
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{deploy_base_url}}/api/1/apps/{{app_id}}/environments/:mode/settings
+  body: none
+  auth: none
+}
+
+params:path {
+  mode: Production
+}
+
+headers {
+  Mendix-Username: {{mendix_username}}
+  Mendix-ApiKey: {{mendix_apikey}}
+  Content-Type: application/json
+}

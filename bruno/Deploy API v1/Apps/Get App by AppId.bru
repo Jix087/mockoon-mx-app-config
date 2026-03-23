@@ -1,0 +1,21 @@
+meta {
+  name: Get App by AppId
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{deploy_base_url}}/api/1/apps/{{app_id}}
+  body: none
+  auth: none
+}
+
+headers {
+  Mendix-Username: {{mendix_username}}
+  Mendix-ApiKey: {{mendix_apikey}}
+  Content-Type: application/json
+}
+
+docs {
+  Retrieve a specific app by AppId.
+}

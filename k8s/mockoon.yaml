@@ -1,0 +1,334 @@
+# ============================================================
+# Mendix Mock APIs — Kubernetes Manifests
+# ============================================================
+# Three Mockoon services:
+#   mendix-deploy-api      → port 3001
+#   mendix-build-api       → port 3002
+#   mendix-repository-api  → port 3003
+#
+# A single shared PVC holds all JSON files.
+# A one-time Job (using busybox) copies the files from a
+# mounted hostPath onto the PVC before the Deployments start.
+#
+# Deploy order:
+#   1. kubectl apply -f mockoon.yaml          (creates PVC + Job + Deployments + Services)
+#   2. Wait for the loader Job to complete:
+#      kubectl wait --for=condition=complete job/mockoon-data-loader -n mockoon --timeout=60s
+#   3. Pods will become ready once the files are on the PVC.
+#
+# To upload the JSON files onto the cluster node first, run:
+#   ./k8s/upload.sh [namespace]
+# ============================================================
+
+---
+# ── Namespace ─────────────────────────────────────────────────
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mockoon
+
+---
+# ── Shared PVC ────────────────────────────────────────────────
+# Stores the three Mockoon JSON environment files.
+# ReadWriteMany is used so all pods can read concurrently.
+# Change storageClassName to match your cluster (e.g. "standard",
+# "longhorn", "efs-sc"). Use ReadWriteOnce if RWX is unavailable
+# — all pods must then be scheduled on the same node.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mockoon-data
+  namespace: mockoon
+  labels:
+    app: mendix-mock
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""   # set your StorageClass here
+  resources:
+    requests:
+      storage: 50Mi
+
+---
+# ── Data Loader Job ───────────────────────────────────────────
+# Copies JSON files from a hostPath volume onto the PVC.
+# The hostPath must contain the three JSON files; use upload.sh
+# to place them on the node first (or adjust the hostPath below).
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mockoon-data-loader
+  namespace: mockoon
+  labels:
+    app: mendix-mock
+    component: data-loader
+spec:
+  ttlSecondsAfterFinished: 300   # auto-clean after 5 min
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: loader
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              echo "Copying mock JSON files to PVC..."
+              cp /src/mendix-deploy-api.json      /data/mendix-deploy-api.json
+              cp /src/mendix-build-api.json       /data/mendix-build-api.json
+              cp /src/mendix-repository-api.json  /data/mendix-repository-api.json
+              echo "Done. Files on PVC:"
+              ls -lh /data/
+          volumeMounts:
+            - name: src
+              mountPath: /src
+              readOnly: true
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: src
+          hostPath:
+            path: /opt/mockoon-data    # place JSON files here on the node
+            type: Directory
+        - name: data
+          persistentVolumeClaim:
+            claimName: mockoon-data
+
+---
+# ── Deploy API Deployment ────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mendix-deploy-api
+  namespace: mockoon
+  labels:
+    app: mendix-mock
+    component: deploy-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mendix-mock
+      component: deploy-api
+  template:
+    metadata:
+      labels:
+        app: mendix-mock
+        component: deploy-api
+    spec:
+      containers:
+        - name: mockoon
+          image: mockoon/cli:latest
+          args: ["--data", "/data/mendix-deploy-api.json", "--port", "3001"]
+          ports:
+            - containerPort: 3001
+          livenessProbe:
+            httpGet:
+              path: /api/1/apps
+              port: 3001
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 2
+          readinessProbe:
+            httpGet:
+              path: /api/1/apps
+              port: 3001
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          volumeMounts:
+            - name: data
+              mountPath: /data
+              readOnly: true
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: mockoon-data
+            readOnly: true
+
+---
+# ── Deploy API Service ───────────────────────────────────────
+apiVersion: v1
+kind: Service
+metadata:
+  name: mendix-deploy-api
+  namespace: mockoon
+  labels:
+    app: mendix-mock
+    component: deploy-api
+spec:
+  selector:
+    app: mendix-mock
+    component: deploy-api
+  ports:
+    - name: http
+      port: 3001
+      targetPort: 3001
+
+---
+# ── Build API Deployment ─────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mendix-build-api
+  namespace: mockoon
+  labels:
+    app: mendix-mock
+    component: build-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mendix-mock
+      component: build-api
+  template:
+    metadata:
+      labels:
+        app: mendix-mock
+        component: build-api
+    spec:
+      containers:
+        - name: mockoon
+          image: mockoon/cli:latest
+          args: ["--data", "/data/mendix-build-api.json", "--port", "3002"]
+          ports:
+            - containerPort: 3002
+          livenessProbe:
+            httpGet:
+              path: /api/1/apps/EnterpriseD/packages
+              port: 3002
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 2
+          readinessProbe:
+            httpGet:
+              path: /api/1/apps/EnterpriseD/packages
+              port: 3002
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          volumeMounts:
+            - name: data
+              mountPath: /data
+              readOnly: true
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: mockoon-data
+            readOnly: true
+
+---
+# ── Build API Service ────────────────────────────────────────
+apiVersion: v1
+kind: Service
+metadata:
+  name: mendix-build-api
+  namespace: mockoon
+  labels:
+    app: mendix-mock
+    component: build-api
+spec:
+  selector:
+    app: mendix-mock
+    component: build-api
+  ports:
+    - name: http
+      port: 3002
+      targetPort: 3002
+
+---
+# ── Repository API Deployment ────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mendix-repository-api
+  namespace: mockoon
+  labels:
+    app: mendix-mock
+    component: repository-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mendix-mock
+      component: repository-api
+  template:
+    metadata:
+      labels:
+        app: mendix-mock
+        component: repository-api
+    spec:
+      containers:
+        - name: mockoon
+          image: mockoon/cli:latest
+          args: ["--data", "/data/mendix-repository-api.json", "--port", "3003"]
+          ports:
+            - containerPort: 3003
+          livenessProbe:
+            httpGet:
+              path: /v1/repositories/EnterpriseD/info
+              port: 3003
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 2
+          readinessProbe:
+            httpGet:
+              path: /v1/repositories/EnterpriseD/info
+              port: 3003
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          volumeMounts:
+            - name: data
+              mountPath: /data
+              readOnly: true
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: mockoon-data
+            readOnly: true
+
+---
+# ── Repository API Service ───────────────────────────────────
+apiVersion: v1
+kind: Service
+metadata:
+  name: mendix-repository-api
+  namespace: mockoon
+  labels:
+    app: mendix-mock
+    component: repository-api
+spec:
+  selector:
+    app: mendix-mock
+    component: repository-api
+  ports:
+    - name: http
+      port: 3003
+      targetPort: 3003

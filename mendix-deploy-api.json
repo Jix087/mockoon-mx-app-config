@@ -1,0 +1,1209 @@
+{
+  "uuid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "lastMigration": 33,
+  "name": "Mendix Deploy API v1",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3001,
+  "hostname": "",
+  "folders": [
+    {
+      "uuid": "f0000001-0000-0000-0000-000000000001",
+      "name": "Apps",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "4f0ee492-688c-48ce-b5b7-dfb555422ab7"
+        },
+        {
+          "type": "route",
+          "uuid": "e58c741c-1107-43f8-9087-faf694d753d4"
+        },
+        {
+          "type": "route",
+          "uuid": "86ecddae-73ad-4a7f-ac2e-8acb738958b2"
+        }
+      ]
+    },
+    {
+      "uuid": "f0000002-0000-0000-0000-000000000002",
+      "name": "Environments",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "6b5ff405-32aa-4597-96e4-0804a69081ce"
+        },
+        {
+          "type": "route",
+          "uuid": "ae1bccfd-37b9-488f-a77c-aa7941d3ca15"
+        },
+        {
+          "type": "route",
+          "uuid": "87f37b8a-2ddc-4435-83ec-28d22787832a"
+        },
+        {
+          "type": "route",
+          "uuid": "f2ee5999-9fb0-47e0-9fe1-b403201103ed"
+        },
+        {
+          "type": "route",
+          "uuid": "78e091cb-7b8c-4e9a-b8b1-a607991933e9"
+        },
+        {
+          "type": "route",
+          "uuid": "f433b36f-bbc7-401e-813e-06c98d592dc4"
+        }
+      ]
+    },
+    {
+      "uuid": "f0000003-0000-0000-0000-000000000003",
+      "name": "Packages",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "6cfb32c3-8432-428c-bd31-2321473fe035"
+        },
+        {
+          "type": "route",
+          "uuid": "fc17e3f2-5ea0-42f3-8e4b-3c8c86c79515"
+        },
+        {
+          "type": "route",
+          "uuid": "027db3f9-79b0-47a2-8aa0-dbb315df17e9"
+        }
+      ]
+    },
+    {
+      "uuid": "f0000004-0000-0000-0000-000000000004",
+      "name": "Settings",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "c8f97092-f23e-4747-ab29-a9c721763297"
+        },
+        {
+          "type": "route",
+          "uuid": "2c87b0e4-eaaa-42b2-8814-374e60878608"
+        },
+        {
+          "type": "route",
+          "uuid": "d8f17d1a-66fc-4da2-b479-7174bef73286"
+        }
+      ]
+    },
+    {
+      "uuid": "f0000005-0000-0000-0000-000000000005",
+      "name": "Tags",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "9dd9a150-44cf-409a-a099-8c4a2d476235"
+        },
+        {
+          "type": "route",
+          "uuid": "67d1ba8b-ecd7-4e28-b456-9880f62aab8c"
+        },
+        {
+          "type": "route",
+          "uuid": "7c6be4a0-cf33-4726-843d-89dd1adbaab0"
+        }
+      ]
+    },
+    {
+      "uuid": "f0000006-0000-0000-0000-000000000006",
+      "name": "Logs",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "89715d28-90e6-4418-bd79-144bbaf23557"
+        },
+        {
+          "type": "route",
+          "uuid": "b2703eea-7122-475c-b783-b246d7b651ae"
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "uuid": "4f0ee492-688c-48ce-b5b7-dfb555422ab7",
+      "type": "http",
+      "documentation": "Retrieve all apps accessible to the authenticated user that have Mendix Cloud environments.",
+      "method": "get",
+      "endpoint": "api/1/apps",
+      "responses": [
+        {
+          "uuid": "144ceb18-2e77-49e6-ada0-c8e0e896fd83",
+          "body": "{{{data 'apps'}}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - List of apps",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "3d5a4e29-de8f-4938-8c2d-45910ea4d765",
+          "body": "{\n  \"errorMessage\": \"Unauthorized\"\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "Unauthorized",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Mendix-ApiKey",
+              "operator": "null",
+              "invert": false,
+              "value": ""
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "e58c741c-1107-43f8-9087-faf694d753d4",
+      "type": "http",
+      "documentation": "Creates a Free App environment for the given project.",
+      "method": "post",
+      "endpoint": "api/1/apps",
+      "responses": [
+        {
+          "uuid": "c2a2108e-c27b-459f-837f-e560927231d3",
+          "body": "{\n  \"AppId\": \"NewFreeApp\",\n  \"Name\": \"New Free App\",\n  \"ProjectId\": \"{{body 'ProjectId'}}\",\n  \"Url\": \"https://newfreeapp.mendixcloud.com\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - App created",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "86ecddae-73ad-4a7f-ac2e-8acb738958b2",
+      "type": "http",
+      "documentation": "Retrieve a specific app by AppId. Looks up the app in the 'apps' data bucket using a JSONPath filter.",
+      "method": "get",
+      "endpoint": "api/1/apps/:AppId",
+      "responses": [
+        {
+          "uuid": "f14968df-f481-4bbe-b644-2ed5be3f37b4",
+          "body": "{{{stringify (find (dataRaw 'apps') (object AppId=(urlParam 'AppId')))}}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - App details",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "bb3d79a2-d3c6-4eb5-9f2d-c252b45517ea",
+          "body": "{\n  \"errorMessage\": \"App not found\"\n}",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "Not Found",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "6b5ff405-32aa-4597-96e4-0804a69081ce",
+      "type": "http",
+      "documentation": "Retrieve all environments for the given app.",
+      "method": "get",
+      "endpoint": "api/1/apps/:AppId/environments",
+      "responses": [
+        {
+          "uuid": "0318afd1-31b7-4213-8737-8732c1436a37",
+          "body": "{{{stringify (lookup (find (dataRaw 'environments') (object AppId=(urlParam 'AppId'))) 'Modes')}}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - List of environments",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "ae1bccfd-37b9-488f-a77c-aa7941d3ca15",
+      "type": "http",
+      "documentation": "Retrieve a specific environment (Test, Acceptance, Production, or flexible).",
+      "method": "get",
+      "endpoint": "api/1/apps/:AppId/environments/:Mode",
+      "responses": [
+        {
+          "uuid": "e9aca8cd-d117-4f23-a09f-beb125c346fc",
+          "body": "{{{stringify (find (lookup (find (dataRaw 'environments') (object AppId=(urlParam 'AppId'))) 'Modes') (object Mode=(urlParam 'Mode')))}}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Environment details",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "87f37b8a-2ddc-4435-83ec-28d22787832a",
+      "type": "http",
+      "documentation": "Start the environment. Returns a JobId to track startup progress.",
+      "method": "post",
+      "endpoint": "api/1/apps/:AppId/environments/:Mode/start",
+      "responses": [
+        {
+          "uuid": "36db79b3-aa72-4611-84de-901b3f4a0d1c",
+          "body": "{{~setData 'set' 'jobCounters' 'pendingJobId' (faker 'string.uuid')~}}{{~setData 'set' 'jobCounters' (dataRaw 'jobCounters' 'pendingJobId') 0~}}{\"JobId\": \"{{dataRaw 'jobCounters' 'pendingJobId'}}\"}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Start job queued",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "5e46f6d0-34a3-4149-9389-c15a9d3c8d93",
+          "body": "{\n  \"errorMessage\": \"Environment is already running\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Bad Request - Already running",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "f2ee5999-9fb0-47e0-9fe1-b403201103ed",
+      "type": "http",
+      "documentation": "Poll the status of an environment start job. Returns 'Starting' for the first 5 calls per JobId, then 'Started'. State is tracked per JobId in the 'jobCounters' data bucket — parallel calls with different JobIds are fully isolated.",
+      "method": "get",
+      "endpoint": "api/1/apps/:AppId/environments/:Mode/start/:JobId",
+      "responses": [
+        {
+          "uuid": "8ea5329d-6e83-4567-bf97-f9e66155f705",
+          "body": "{{setData 'inc' 'jobCounters' (urlParam 'JobId') 1}}{{#if (lte (dataRaw 'jobCounters' (urlParam 'JobId')) 5)}}{\"Status\":\"Starting\"}{{else}}{\"Status\":\"Started\"}{{/if}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Starting (1-5 calls) then Started — per JobId",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "78e091cb-7b8c-4e9a-b8b1-a607991933e9",
+      "type": "http",
+      "documentation": "Stop the running environment.",
+      "method": "post",
+      "endpoint": "api/1/apps/:AppId/environments/:Mode/stop",
+      "responses": [
+        {
+          "uuid": "5d66c7ed-f119-424f-affe-f47dacee6563",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Environment stopped",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "95269d11-4f52-4afe-99ef-10e1eea7b816",
+          "body": "{\n  \"errorMessage\": \"Environment is not running\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Bad Request - Not running",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "f433b36f-bbc7-401e-813e-06c98d592dc4",
+      "type": "http",
+      "documentation": "Remove all data from the environment. The environment will be stopped if it is running.",
+      "method": "post",
+      "endpoint": "api/1/apps/:AppId/environments/:Mode/clean",
+      "responses": [
+        {
+          "uuid": "4985e0b6-330e-40a5-a4a9-ae8372403728",
+          "body": "{\n  \"Status\": \"Stopped\",\n  \"CanManageSnapshots\": true,\n  \"RunningMaintenanceID\": \"\",\n  \"Mode\": \"{{urlParam 'Mode'}}\",\n  \"Url\": \"https://calc-accp.mendixcloud.com\",\n  \"ModelVersion\": \"1.1.0.253\",\n  \"MendixVersion\": \"9.24.0.27183\",\n  \"Production\": false,\n  \"DeploymentPackageName\": \"Main line-1.1.0.253.mda\",\n  \"IsStudioProDeployable\": false,\n  \"ExpiryDate\": \"\",\n  \"HasUncommittedChanges\": false,\n  \"LastVersion\": \"\",\n  \"PublicHealthCheckURL\": \"\",\n  \"PublicStatusPageURL\": \"\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Environment cleaned",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "6cfb32c3-8432-428c-bd31-2321473fe035",
+      "type": "http",
+      "documentation": "Retrieve the deployment package for a specific environment. Set url=true to include a download URL.",
+      "method": "get",
+      "endpoint": "api/1/apps/:AppId/environments/:Mode/package",
+      "responses": [
+        {
+          "uuid": "2d60e20b-e165-4870-b88c-d082a8e400c0",
+          "body": "{\n  \"PackageId\": \"b3d14e75-2b6e-4dc3-8faf-4b8c5b5a5a5a\",\n  \"Name\": \"Main line-1.1.0.253.mda\",\n  \"Description\": \"\",\n  \"Version\": \"1.1.0.253\",\n  \"Creator\": \"John Doe\",\n  \"CreationDate\": 1698876543000,\n  \"Status\": \"Succeeded\",\n  \"Size\": 10485760\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Package info (no URL)",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "url",
+              "operator": "equals",
+              "invert": true,
+              "value": "true"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "06295fd0-c1bc-439d-874c-d0f0beaba5bc",
+          "body": "{\n  \"PackageId\": \"b3d14e75-2b6e-4dc3-8faf-4b8c5b5a5a5a\",\n  \"Name\": \"Main line-1.1.0.253.mda\",\n  \"Description\": \"\",\n  \"Version\": \"1.1.0.253\",\n  \"Creator\": \"John Doe\",\n  \"CreationDate\": 1698876543000,\n  \"Status\": \"Succeeded\",\n  \"Size\": 10485760,\n  \"Url\": \"https://cdn.mendix.com/packages/b3d14e75-2b6e-4dc3-8faf-4b8c5b5a5a5a.mda?token=abc123\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Package info with download URL",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "url",
+              "operator": "equals",
+              "invert": false,
+              "value": "true"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "fc17e3f2-5ea0-42f3-8e4b-3c8c86c79515",
+      "type": "http",
+      "documentation": "Upload a deployment package (.mda file) via multipart/form-data. Use ?name=PackageName to set the package name.",
+      "method": "post",
+      "endpoint": "api/1/apps/:AppId/packages/upload",
+      "responses": [
+        {
+          "uuid": "a5819e9c-ab9b-4b94-8ef6-e21094fe0ca4",
+          "body": "{\n  \"PackageId\": \"c4e25f86-3c7f-5ed4-9gbg-5c9d6c6b6b6b\",\n  \"Name\": \"{{queryParam 'name' 'uploaded-package.mda'}}\",\n  \"Description\": \"\",\n  \"Version\": \"\",\n  \"Creator\": \"John Doe\",\n  \"CreationDate\": {{now 'x'}},\n  \"Status\": \"Succeeded\",\n  \"Size\": 5242880\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Package uploaded",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "af3adfcc-6267-447b-bf51-7eaf6d827e03",
+          "body": "{\n  \"errorMessage\": \"Package exceeds the maximum allowed size of 300 MB. Use the v2 API for larger packages.\"\n}",
+          "latency": 0,
+          "statusCode": 413,
+          "label": "Payload Too Large",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "027db3f9-79b0-47a2-8aa0-dbb315df17e9",
+      "type": "http",
+      "documentation": "Transport (deploy) a package to the environment.",
+      "method": "post",
+      "endpoint": "api/1/apps/:AppId/environments/:Mode/transport",
+      "responses": [
+        {
+          "uuid": "003211fc-5b49-4665-9654-c59acdc9885f",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Package transported",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "120c8907-7b89-41ef-ae95-c372c8be0fca",
+          "body": "{\n  \"errorMessage\": \"PackageId is required\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Bad Request - Missing PackageId",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "c8f97092-f23e-4747-ab29-a9c721763297",
+      "type": "http",
+      "documentation": "Retrieve the current settings (constants and scheduled events) for the environment.",
+      "method": "get",
+      "endpoint": "api/1/apps/:AppId/environments/:Mode/settings",
+      "responses": [
+        {
+          "uuid": "edfc8215-7c0d-4d96-937b-37f169660328",
+          "body": "{{setVar 'key' (concat (urlParam 'AppId') '_' (urlParam 'Mode'))}}{{setVar 'settings' (dataRaw 'appSettings' @key)}}{{#if @settings}}{{{stringify @settings}}}{{else}}{{setVar 'fbKey' (concat (urlParam 'AppId') '_Production')}}{{setVar 'fb' (dataRaw 'appSettings' @fbKey)}}{{#if @fb}}{{{stringify @fb}}}{{else}}{\"errorCode\":\"ENVIRONMENT_NOT_FOUND\",\"errorMessage\":\"No settings found for {{urlParam 'AppId'}}/{{urlParam 'Mode'}}\"}{{/if}}{{/if}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Environment settings from appSettings bucket",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "2c87b0e4-eaaa-42b2-8814-374e60878608",
+      "type": "http",
+      "documentation": "Update the settings (constants and scheduled events) for the environment.",
+      "method": "post",
+      "endpoint": "api/1/apps/:AppId/environments/:Mode/settings",
+      "responses": [
+        {
+          "uuid": "00c81bcb-25fe-478c-b9e8-172f94fb59d0",
+          "body": "{\n  \"Constants\": [\n    {\n      \"Name\": \"MyFirstModule.SomeConstant\",\n      \"DataType\": \"_String\",\n      \"Value\": \"newValue\",\n      \"DeployedValue\": \"12345\"\n    }\n  ],\n  \"CustomSettings\": [],\n  \"ScheduledEvents\": [\n    {\n      \"Name\": \"MyFirstModule.SomeScheduledEvent\",\n      \"DeployedValue\": \"Disabled\",\n      \"Value\": \"Enabled\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Settings updated",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "d8f17d1a-66fc-4da2-b479-7174bef73286",
+      "type": "http",
+      "documentation": "Scale the environment by adjusting the number of instances and memory per instance.",
+      "method": "post",
+      "endpoint": "api/1/apps/:AppId/environments/:Mode/scale",
+      "responses": [
+        {
+          "uuid": "74275c2f-acdd-4123-9681-7db26949643e",
+          "body": "{\n  \"Instances\": {{body 'Instances' 1}},\n  \"MemoryPerInstance\": {{body 'MemoryPerInstance' 1024}}\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Environment scaled",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "b3683c51-68f3-4d26-b14e-5146ffd6f9e2",
+          "body": "{\n  \"errorMessage\": \"Invalid scaling parameters\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Bad Request",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "9dd9a150-44cf-409a-a099-8c4a2d476235",
+      "type": "http",
+      "documentation": "Retrieve all tags for the environment.",
+      "method": "get",
+      "endpoint": "api/1/apps/:AppId/environments/:Mode/tags",
+      "responses": [
+        {
+          "uuid": "c86714fc-a5fd-4759-a3bc-e75a2d3b41b7",
+          "body": "{\n  \"Tag\": [\n    \"production-ready\",\n    \"reviewed\"\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - List of tags",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "67d1ba8b-ecd7-4e28-b456-9880f62aab8c",
+      "type": "http",
+      "documentation": "Create a new tag for the environment.",
+      "method": "post",
+      "endpoint": "api/1/apps/:AppId/environments/:Mode/tags",
+      "responses": [
+        {
+          "uuid": "b8cd09e4-dc4f-4a13-aafa-25ca92160e43",
+          "body": "{\n  \"Tag\": [\n    \"{{body 'Tag'}}\"\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Tag created",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "7c6be4a0-cf33-4726-843d-89dd1adbaab0",
+      "type": "http",
+      "documentation": "Delete all tags from the environment.",
+      "method": "delete",
+      "endpoint": "api/1/apps/:AppId/environments/:Mode/tags",
+      "responses": [
+        {
+          "uuid": "f1d44d92-1c6c-42fe-a098-3faac29f59d6",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Tags deleted",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "89715d28-90e6-4418-bd79-144bbaf23557",
+      "type": "http",
+      "documentation": "Download the application log for a specific date (YYYY-MM-DD format).",
+      "method": "get",
+      "endpoint": "api/1/apps/:AppId/environments/:Mode/logs/:Date",
+      "responses": [
+        {
+          "uuid": "a8646b58-10a8-4591-a943-4df606a7b87b",
+          "body": "2024-01-15T10:00:00.000Z INFO  - [com.mendix.core.Core] Starting application\n2024-01-15T10:00:01.234Z INFO  - [com.mendix.core.Core] Application started successfully\n2024-01-15T10:05:12.456Z INFO  - [MyFirstModule] Processing scheduled event: SomeScheduledEvent\n2024-01-15T10:05:12.789Z INFO  - [MyFirstModule] Scheduled event completed successfully\n2024-01-15T10:15:33.012Z WARN  - [com.mendix.core.Core] High memory usage detected: 85%\n2024-01-15T10:20:45.678Z ERROR - [MyFirstModule] Unhandled exception in microflow: ProcessOrder\njava.lang.NullPointerException: Cannot invoke method on null object\n\tat com.mendix.MyFirstModule.processOrder(ProcessOrder.java:42)\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Application logs",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            },
+            {
+              "key": "Content-Disposition",
+              "value": "attachment; filename=\"app-log-{{urlParam 'Date'}}.log\""
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "b67bfc37-7feb-45ca-aee0-cf9dd4bd6870",
+          "body": "{\n  \"errorMessage\": \"No log available for the specified date\"\n}",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "Not Found - No log for date",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "b2703eea-7122-475c-b783-b246d7b651ae",
+      "type": "http",
+      "documentation": "Download the access (user session) log for a specific date (YYYY-MM-DD format).",
+      "method": "get",
+      "endpoint": "api/1/apps/:AppId/environments/:Mode/access-logs/:Date",
+      "responses": [
+        {
+          "uuid": "3b4d4409-06f3-4d9a-a504-4835e6bb91c1",
+          "body": "2024-01-15T10:00:05.000Z INFO - User john.doe@example.com logged in from 192.168.1.10\n2024-01-15T10:00:10.123Z INFO - User jane.doe@example.com logged in from 10.0.0.5\n2024-01-15T10:30:00.456Z INFO - User john.doe@example.com logged out (session timeout)\n2024-01-15T11:00:00.789Z INFO - User admin@example.com logged in from 192.168.1.1\n2024-01-15T17:00:00.000Z INFO - User jane.doe@example.com logged out\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Access logs",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            },
+            {
+              "key": "Content-Disposition",
+              "value": "attachment; filename=\"access-log-{{urlParam 'Date'}}.log\""
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "a516649b-07de-4530-a596-22a4cd18e5bc",
+          "body": "{\n  \"errorMessage\": \"No access log available for the specified date\"\n}",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "Not Found - No log for date",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "folder",
+      "uuid": "f0000001-0000-0000-0000-000000000001"
+    },
+    {
+      "type": "folder",
+      "uuid": "f0000002-0000-0000-0000-000000000002"
+    },
+    {
+      "type": "folder",
+      "uuid": "f0000003-0000-0000-0000-000000000003"
+    },
+    {
+      "type": "folder",
+      "uuid": "f0000004-0000-0000-0000-000000000004"
+    },
+    {
+      "type": "folder",
+      "uuid": "f0000005-0000-0000-0000-000000000005"
+    },
+    {
+      "type": "folder",
+      "uuid": "f0000006-0000-0000-0000-000000000006"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [
+    {
+      "uuid": "d0000001-0000-0000-0000-000000000001",
+      "id": "jobCounters",
+      "name": "jobCounters",
+      "documentation": "Tracks poll count per JobId. Keys are JobId values, values are incrementing integers. Resets to 0 on server restart.",
+      "value": "{}"
+    },
+    {
+      "uuid": "d0000003-0000-0000-0000-000000000003",
+      "id": "environments",
+      "name": "environments",
+      "documentation": "List of environments per AppId. Each entry has an AppId and a Modes array.",
+      "value": "[{\"AppId\":\"EnterpriseD\",\"Modes\":[{\"Status\":\"Running\",\"EnvironmentId\":\"1d608242-b184-4d54-b60e-66c530704b52\",\"Mode\":\"Test\",\"Url\":\"https://enterprised-test.mendixcloud.com\",\"ModelVersion\":\"1.0.0.1\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":false},{\"Status\":\"Running\",\"EnvironmentId\":\"6b0b4857-e4c2-464d-88ca-33279873cdd9\",\"Mode\":\"Acceptance\",\"Url\":\"https://enterprised-accp.mendixcloud.com\",\"ModelVersion\":\"1.0.0.1\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":false},{\"Status\":\"Running\",\"EnvironmentId\":\"4b18229a-30bc-4e20-b396-c45b28f7706f\",\"Mode\":\"Production\",\"Url\":\"https://enterprised.mendixcloud.com\",\"ModelVersion\":\"1.0.0.1\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true}]},{\"AppId\":\"HolodeckSuite\",\"Modes\":[{\"Status\":\"Running\",\"EnvironmentId\":\"6e1753fd-88f7-4be5-bed3-280402b711f1\",\"Mode\":\"Test\",\"Url\":\"https://holodeck-test.mendixcloud.com\",\"ModelVersion\":\"2.1.0.42\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":false},{\"Status\":\"Stopped\",\"EnvironmentId\":\"09d2da56-4656-40bf-b186-46f274129af7\",\"Mode\":\"Acceptance\",\"Url\":\"https://holodeck-accp.mendixcloud.com\",\"ModelVersion\":\"2.0.0.40\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":false},{\"Status\":\"Running\",\"EnvironmentId\":\"758854c1-e6e5-4e71-9aea-88bab416e97e\",\"Mode\":\"Production\",\"Url\":\"https://holodeck.mendixcloud.com\",\"ModelVersion\":\"2.0.0.40\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true}]},{\"AppId\":\"ReplicatorSystem\",\"Modes\":[{\"Status\":\"Stopped\",\"EnvironmentId\":\"3e3b910a-e4f8-4f5d-96e7-387de20f4fa8\",\"Mode\":\"Test\",\"Url\":\"https://replicator-test.mendixcloud.com\",\"ModelVersion\":\"3.0.0.10\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":false},{\"Status\":\"Running\",\"EnvironmentId\":\"fd604b04-5afa-45de-a129-91d2be286d43\",\"Mode\":\"Acceptance\",\"Url\":\"https://replicator-accp.mendixcloud.com\",\"ModelVersion\":\"3.0.0.10\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":false},{\"Status\":\"Running\",\"EnvironmentId\":\"2f352216-1d2a-4a25-be7b-7551b6ee7e88\",\"Mode\":\"Production\",\"Url\":\"https://replicator.mendixcloud.com\",\"ModelVersion\":\"3.0.0.10\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true}]},{\"AppId\":\"TransporterOps\",\"Modes\":[{\"Status\":\"Running\",\"EnvironmentId\":\"deb00638-451c-4c12-8633-4d1f2c36202c\",\"Mode\":\"Test\",\"Url\":\"https://transporter-test.mendixcloud.com\",\"ModelVersion\":\"1.2.0.7\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":false},{\"Status\":\"Running\",\"EnvironmentId\":\"80266bb9-c271-4389-90a1-daf784ac9c8d\",\"Mode\":\"Acceptance\",\"Url\":\"https://transporter-accp.mendixcloud.com\",\"ModelVersion\":\"1.2.0.7\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":false},{\"Status\":\"Running\",\"EnvironmentId\":\"bdaad555-ddb6-421b-897d-6d26ea1173d1\",\"Mode\":\"Production\",\"Url\":\"https://transporter.mendixcloud.com\",\"ModelVersion\":\"1.2.0.7\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true}]},{\"AppId\":\"WarpCoreMonitor\",\"Modes\":[{\"Status\":\"Running\",\"EnvironmentId\":\"42106f9e-83b8-438c-a7c2-da47e798a2f9\",\"Mode\":\"Test\",\"Url\":\"https://warpcore-test.mendixcloud.com\",\"ModelVersion\":\"5.0.0.101\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":false},{\"Status\":\"Running\",\"EnvironmentId\":\"411cfaa3-42cb-47cd-9590-eccc891b1a4d\",\"Mode\":\"Acceptance\",\"Url\":\"https://warpcore-accp.mendixcloud.com\",\"ModelVersion\":\"4.9.0.100\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":false},{\"Status\":\"Running\",\"EnvironmentId\":\"34125223-9e5f-4372-90b9-bdcc66699496\",\"Mode\":\"OdysseyCruiser\",\"Url\":\"https://warpcore-odysseycruiser.mendixcloud.com\",\"ModelVersion\":\"4.0.0.98\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"67499a81-e7f3-4f34-b903-c6f2267436a6\",\"Mode\":\"NebulaPulsar\",\"Url\":\"https://warpcore-nebulapulsar.mendixcloud.com\",\"ModelVersion\":\"4.1.0.99\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"08f99f33-e677-4b0b-a2aa-a769e253875d\",\"Mode\":\"QuantumFlux\",\"Url\":\"https://warpcore-quantumflux.mendixcloud.com\",\"ModelVersion\":\"4.2.0.100\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"fb8d9d9d-b2c2-4876-81d5-1b97c22e5e5b\",\"Mode\":\"PhotonTorpedo\",\"Url\":\"https://warpcore-photontorpedo.mendixcloud.com\",\"ModelVersion\":\"4.0.0.98\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"3570f7c3-d766-48f0-a622-f8b0192de813\",\"Mode\":\"WarpDrive\",\"Url\":\"https://warpcore-warpdrive.mendixcloud.com\",\"ModelVersion\":\"4.1.0.99\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"457f8d3c-44e6-4da3-98bd-4e67f012619a\",\"Mode\":\"HolodeckMatrix\",\"Url\":\"https://warpcore-holodeckmatrix.mendixcloud.com\",\"ModelVersion\":\"4.2.0.100\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"792cb9e6-ac91-480f-aa3e-5c0fb2505433\",\"Mode\":\"TachyonBeam\",\"Url\":\"https://warpcore-tachyonbeam.mendixcloud.com\",\"ModelVersion\":\"4.0.0.98\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"d9ccbf33-463a-40b7-972b-9ac2a526c520\",\"Mode\":\"SubspaceField\",\"Url\":\"https://warpcore-subspacefield.mendixcloud.com\",\"ModelVersion\":\"4.1.0.99\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"e10326ad-bfcd-4f80-9e5c-b551ea3172a9\",\"Mode\":\"TransporterLock\",\"Url\":\"https://warpcore-transporterlock.mendixcloud.com\",\"ModelVersion\":\"4.2.0.100\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"ce798edc-9e56-494d-96c9-b85ddd975fc6\",\"Mode\":\"ReplicatorGrid\",\"Url\":\"https://warpcore-replicatorgrid.mendixcloud.com\",\"ModelVersion\":\"4.0.0.98\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"ebd2a8da-24e2-43bc-bdce-236b9b61a42d\",\"Mode\":\"ShieldMatrix\",\"Url\":\"https://warpcore-shieldmatrix.mendixcloud.com\",\"ModelVersion\":\"4.1.0.99\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"96978a14-8473-4878-964d-bd753deffcc4\",\"Mode\":\"ImpulseCore\",\"Url\":\"https://warpcore-impulsecore.mendixcloud.com\",\"ModelVersion\":\"4.2.0.100\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"b1472346-e162-45fa-b3ca-cdfdfcd169d1\",\"Mode\":\"BorgNexus\",\"Url\":\"https://warpcore-borgnexus.mendixcloud.com\",\"ModelVersion\":\"4.0.0.98\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"247e3d49-4658-4503-a4f5-fdf9f5e4e461\",\"Mode\":\"CardassianVault\",\"Url\":\"https://warpcore-cardassianvault.mendixcloud.com\",\"ModelVersion\":\"4.1.0.99\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"c41f521c-9eea-4d21-8f67-38c5307b29e4\",\"Mode\":\"KlingonForge\",\"Url\":\"https://warpcore-klingonforge.mendixcloud.com\",\"ModelVersion\":\"4.2.0.100\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"145f4482-4ed9-4e84-a010-03795a6d7df3\",\"Mode\":\"RomulanShadow\",\"Url\":\"https://warpcore-romulanshadow.mendixcloud.com\",\"ModelVersion\":\"4.0.0.98\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"555e7196-61ba-4db8-8c61-16c9944cb617\",\"Mode\":\"BajoranOrb\",\"Url\":\"https://warpcore-bajoranorb.mendixcloud.com\",\"ModelVersion\":\"4.1.0.99\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"6b7c1a9d-0066-48d0-89a1-894aacfa2b56\",\"Mode\":\"FerengiVault\",\"Url\":\"https://warpcore-ferengivault.mendixcloud.com\",\"ModelVersion\":\"4.2.0.100\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"1d76e24e-ab91-4033-a63e-a14c659508c5\",\"Mode\":\"VulcanMeld\",\"Url\":\"https://warpcore-vulcanmeld.mendixcloud.com\",\"ModelVersion\":\"4.0.0.98\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"d3028c10-e490-4b4b-9561-78ec52b21ae7\",\"Mode\":\"BetazoidLink\",\"Url\":\"https://warpcore-betazoidlink.mendixcloud.com\",\"ModelVersion\":\"4.1.0.99\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"617ffc7a-8788-460b-b012-a921cc8a9c2b\",\"Mode\":\"AndorianStorm\",\"Url\":\"https://warpcore-andorianstorm.mendixcloud.com\",\"ModelVersion\":\"4.2.0.100\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"ba6c4a78-a6b2-4ab3-9279-52a6bbd0aa79\",\"Mode\":\"TrilithiumCore\",\"Url\":\"https://warpcore-trilithiumcore.mendixcloud.com\",\"ModelVersion\":\"4.0.0.98\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"98e35516-cbc6-4821-b983-37ef38f5b47c\",\"Mode\":\"DeuteriumPod\",\"Url\":\"https://warpcore-deuteriumpod.mendixcloud.com\",\"ModelVersion\":\"4.1.0.99\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"a870f057-c43c-4e2c-9cd5-96325c81da91\",\"Mode\":\"AntimatterRing\",\"Url\":\"https://warpcore-antimatterring.mendixcloud.com\",\"ModelVersion\":\"4.2.0.100\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"0ed3672a-139d-444c-9246-d679d618695f\",\"Mode\":\"SingularityDrive\",\"Url\":\"https://warpcore-singularitydrive.mendixcloud.com\",\"ModelVersion\":\"4.0.0.98\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"7bbb4666-52b7-41fb-b105-6ba213a03432\",\"Mode\":\"ChronotonPulse\",\"Url\":\"https://warpcore-chronotonpulse.mendixcloud.com\",\"ModelVersion\":\"4.1.0.99\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"97075972-1ee0-4ccc-a67d-01279957c11e\",\"Mode\":\"GravitonLance\",\"Url\":\"https://warpcore-gravitonlance.mendixcloud.com\",\"ModelVersion\":\"4.2.0.100\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"1d855ef0-73d0-4ec7-ac70-71183fde18c8\",\"Mode\":\"VerteronWave\",\"Url\":\"https://warpcore-verteronwave.mendixcloud.com\",\"ModelVersion\":\"4.0.0.98\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"fec9eef5-8c53-4f70-ab99-0ac082055150\",\"Mode\":\"TemporalRift\",\"Url\":\"https://warpcore-temporalrift.mendixcloud.com\",\"ModelVersion\":\"4.1.0.99\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"7191d5de-f662-4333-a20c-dfd78b74f5ae\",\"Mode\":\"DysonSphere\",\"Url\":\"https://warpcore-dysonsphere.mendixcloud.com\",\"ModelVersion\":\"4.2.0.100\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"3b4b4045-760d-4880-88d9-071bb4dd7408\",\"Mode\":\"MatterStream\",\"Url\":\"https://warpcore-matterstream.mendixcloud.com\",\"ModelVersion\":\"4.0.0.98\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"5fb357bf-4317-4657-a09e-3733e0788b06\",\"Mode\":\"EnergyMatrix\",\"Url\":\"https://warpcore-energymatrix.mendixcloud.com\",\"ModelVersion\":\"4.1.0.99\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"b80e3697-d933-4d08-9c55-31089fe57b88\",\"Mode\":\"PlasmaCannon\",\"Url\":\"https://warpcore-plasmacannon.mendixcloud.com\",\"ModelVersion\":\"4.2.0.100\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"1dfbe277-67f7-4d65-9754-78706da45b70\",\"Mode\":\"NeutronFlux\",\"Url\":\"https://warpcore-neutronflux.mendixcloud.com\",\"ModelVersion\":\"4.0.0.98\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"a5bb0e53-d898-488b-8586-2a7519e581b7\",\"Mode\":\"CryptonShield\",\"Url\":\"https://warpcore-cryptonshield.mendixcloud.com\",\"ModelVersion\":\"4.1.0.99\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"b1c95465-ed83-41b3-a922-88ff18602eb6\",\"Mode\":\"OmegaParticle\",\"Url\":\"https://warpcore-omegaparticle.mendixcloud.com\",\"ModelVersion\":\"4.2.0.100\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"a3cdf116-74dd-47a5-8690-42ff220eb8dd\",\"Mode\":\"PhasedArray\",\"Url\":\"https://warpcore-phasedarray.mendixcloud.com\",\"ModelVersion\":\"4.0.0.98\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true},{\"Status\":\"Running\",\"EnvironmentId\":\"574f780b-7ac8-4ee1-a670-82a62bde9b0d\",\"Mode\":\"SolitonWave\",\"Url\":\"https://warpcore-solitonwave.mendixcloud.com\",\"ModelVersion\":\"4.1.0.99\",\"MendixVersion\":\"9.24.0.27183\",\"Production\":true}]}]"
+    },
+    {
+      "uuid": "d0000002-0000-0000-0000-000000000002",
+      "id": "apps",
+      "name": "apps",
+      "documentation": "List of apps available in the mock environment.",
+      "value": "[{\"AppId\":\"EnterpriseD\",\"Name\":\"Enterprise D\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000001\",\"Url\":\"https://enterprised.mendixcloud.com\"},{\"AppId\":\"HolodeckSuite\",\"Name\":\"Holodeck Suite\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000002\",\"Url\":\"https://holodeck.mendixcloud.com\"},{\"AppId\":\"ReplicatorSystem\",\"Name\":\"Replicator System\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000003\",\"Url\":\"https://replicator.mendixcloud.com\"},{\"AppId\":\"TransporterOps\",\"Name\":\"Transporter Ops\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000004\",\"Url\":\"https://transporter.mendixcloud.com\"},{\"AppId\":\"WarpCoreMonitor\",\"Name\":\"Warp Core Monitor\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000005\",\"Url\":\"https://warpcore.mendixcloud.com\"},{\"AppId\":\"TenForwardBar\",\"Name\":\"Ten Forward Bar\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000006\",\"Url\":\"https://tenforward.mendixcloud.com\"},{\"AppId\":\"SickbayMedical\",\"Name\":\"Sickbay Medical\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000007\",\"Url\":\"https://sickbay.mendixcloud.com\"},{\"AppId\":\"BridgeCommander\",\"Name\":\"Bridge Commander\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000008\",\"Url\":\"https://bridge.mendixcloud.com\"},{\"AppId\":\"DataloreAI\",\"Name\":\"Datalor AI\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000009\",\"Url\":\"https://dataloreai.mendixcloud.com\"},{\"AppId\":\"CounselorTroi\",\"Name\":\"Counselor Troi Empathy\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000010\",\"Url\":\"https://troi.mendixcloud.com\"},{\"AppId\":\"LaForgeEngineering\",\"Name\":\"La Forge Engineering\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000011\",\"Url\":\"https://laforge.mendixcloud.com\"},{\"AppId\":\"WorfSecurity\",\"Name\":\"Worf Security\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000012\",\"Url\":\"https://worf.mendixcloud.com\"},{\"AppId\":\"RikerCommands\",\"Name\":\"Riker Commands\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000013\",\"Url\":\"https://riker.mendixcloud.com\"},{\"AppId\":\"PicardDiplomacy\",\"Name\":\"Picard Diplomacy\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000014\",\"Url\":\"https://picard.mendixcloud.com\"},{\"AppId\":\"BorgAssimilation\",\"Name\":\"Borg Assimilation Tracker\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000015\",\"Url\":\"https://borg.mendixcloud.com\"},{\"AppId\":\"QContinuum\",\"Name\":\"Q Continuum Portal\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000016\",\"Url\":\"https://qcontinuum.mendixcloud.com\"},{\"AppId\":\"BetazoidPsionics\",\"Name\":\"Betazoid Psionics\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000017\",\"Url\":\"https://betazoid.mendixcloud.com\"},{\"AppId\":\"StarfleetAcademy\",\"Name\":\"Starfleet Academy\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000018\",\"Url\":\"https://starfleet.mendixcloud.com\"},{\"AppId\":\"CardassianOrbit\",\"Name\":\"Cardassian Orbit Station\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000019\",\"Url\":\"https://cardassian.mendixcloud.com\"},{\"AppId\":\"RomulanNeutralZone\",\"Name\":\"Romulan Neutral Zone\",\"ProjectId\":\"1701d000-ncc1-701d-0000-000000000020\",\"Url\":\"https://romulan.mendixcloud.com\"}]"
+    },
+    {
+      "uuid": "d0000004-0000-0000-0000-000000000004",
+      "id": "appSettings",
+      "name": "appSettings",
+      "documentation": "Settings per app+environment, keyed by AppId_Mode (e.g. EnterpriseD_Production). Contains Constants (with per-env Values) and ScheduledEvents. Production key is the fallback for WarpCoreMonitor's named production environments.",
+      "value": "{\"EnterpriseD_Test\":{\"Constants\":[{\"Name\":\"EnterpriseD.EnableShieldMonitoring\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"EnterpriseD.EnableHullIntegrityAlerts\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"EnterpriseD.MaximumWarpFactor\",\"DataType\":\"Integer\",\"Value\":\"5\",\"DeployedValue\":\"5\"},{\"Name\":\"EnterpriseD.MaintenanceWindowStart\",\"DataType\":\"DateTime\",\"Value\":\"2024-01-15T02:00:00\",\"DeployedValue\":\"2024-01-15T02:00:00\"},{\"Name\":\"EnterpriseD.ShipRegistryUrl\",\"DataType\":\"_String\",\"Value\":\"https://registry-test.starfleet.com\",\"DeployedValue\":\"https://registry-test.starfleet.com\"},{\"Name\":\"EnterpriseD.CrewManifestSyncInterval\",\"DataType\":\"Integer\",\"Value\":\"60\",\"DeployedValue\":\"60\"},{\"Name\":\"EnterpriseD.EnableCombatReadiness\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"EnterpriseD.CommanderPINLength\",\"DataType\":\"Integer\",\"Value\":\"4\",\"DeployedValue\":\"4\"},{\"Name\":\"EnterpriseD.StarbaseSyncUrl\",\"DataType\":\"_String\",\"Value\":\"https://starbase1-test.starfleet.com\",\"DeployedValue\":\"https://starbase1-test.starfleet.com\"},{\"Name\":\"EnterpriseD.EnableEmergencyBroadcast\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"EnterpriseD.AlertLevelThreshold\",\"DataType\":\"Integer\",\"Value\":\"5\",\"DeployedValue\":\"5\"},{\"Name\":\"EnterpriseD.HullBreachThreshold\",\"DataType\":\"Integer\",\"Value\":\"80\",\"DeployedValue\":\"80\"},{\"Name\":\"EnterpriseD.VoiceCommandTimeout\",\"DataType\":\"Integer\",\"Value\":\"30\",\"DeployedValue\":\"30\"},{\"Name\":\"EnterpriseD.EnableDiplomacyMode\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.LastCalibrationDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-01-10T08:00:00\",\"DeployedValue\":\"2024-01-10T08:00:00\"},{\"Name\":\"EnterpriseD.CommunicationsFrequency\",\"DataType\":\"_String\",\"Value\":\"372.14\",\"DeployedValue\":\"372.14\"},{\"Name\":\"EnterpriseD.SensorArrayMode\",\"DataType\":\"_String\",\"Value\":\"diagnostic\",\"DeployedValue\":\"diagnostic\"},{\"Name\":\"EnterpriseD.EnableRemoteAccess\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.MaxConcurrentSessions\",\"DataType\":\"Integer\",\"Value\":\"100\",\"DeployedValue\":\"100\"},{\"Name\":\"EnterpriseD.LogRetentionDays\",\"DataType\":\"Integer\",\"Value\":\"7\",\"DeployedValue\":\"7\"},{\"Name\":\"EnterpriseD.FirstContactProtocolDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-01-01T00:00:00\",\"DeployedValue\":\"2024-01-01T00:00:00\"},{\"Name\":\"EnterpriseD.SystemHeartbeatInterval\",\"DataType\":\"Integer\",\"Value\":\"60\",\"DeployedValue\":\"60\"}],\"CustomSettings\":[],\"ScheduledEvents\":[{\"Name\":\"EnterpriseD.DailySystemDiagnostics\",\"DeployedValue\":\"Disabled\",\"Value\":\"Disabled\"},{\"Name\":\"EnterpriseD.WeeklyManifestSync\",\"DeployedValue\":\"Disabled\",\"Value\":\"Disabled\"}]},\"HolodeckSuite_Test\":{\"Constants\":[{\"Name\":\"HolodeckSuite.MaxConcurrentPrograms\",\"DataType\":\"Integer\",\"Value\":\"5\",\"DeployedValue\":\"5\"},{\"Name\":\"HolodeckSuite.DefaultResolutionDpi\",\"DataType\":\"Integer\",\"Value\":\"72\",\"DeployedValue\":\"72\"},{\"Name\":\"HolodeckSuite.EnableSafetyInterlock\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"HolodeckSuite.SafetyThreshold\",\"DataType\":\"Integer\",\"Value\":\"80\",\"DeployedValue\":\"80\"},{\"Name\":\"HolodeckSuite.ProgramLibraryUrl\",\"DataType\":\"_String\",\"Value\":\"https://holodeck-lib-test.starfleet.com\",\"DeployedValue\":\"https://holodeck-lib-test.starfleet.com\"},{\"Name\":\"HolodeckSuite.EnableMoriartyProtocol\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"HolodeckSuite.SimulationFPS\",\"DataType\":\"Integer\",\"Value\":\"24\",\"DeployedValue\":\"24\"},{\"Name\":\"HolodeckSuite.MaxParticipants\",\"DataType\":\"Integer\",\"Value\":\"10\",\"DeployedValue\":\"10\"},{\"Name\":\"HolodeckSuite.LastProgramUpdate\",\"DataType\":\"DateTime\",\"Value\":\"2024-01-20T10:00:00\",\"DeployedValue\":\"2024-01-20T10:00:00\"},{\"Name\":\"HolodeckSuite.EnableRemoteAccess\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"HolodeckSuite.HoloGridFrequency\",\"DataType\":\"_String\",\"Value\":\"141.5\",\"DeployedValue\":\"141.5\"},{\"Name\":\"HolodeckSuite.NeuralInterfaceMode\",\"DataType\":\"_String\",\"Value\":\"passive\",\"DeployedValue\":\"passive\"},{\"Name\":\"HolodeckSuite.EnableDiagnosticsOverlay\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"HolodeckSuite.MaxSessionDurationMinutes\",\"DataType\":\"Integer\",\"Value\":\"30\",\"DeployedValue\":\"30\"},{\"Name\":\"HolodeckSuite.ContentLibraryVersion\",\"DataType\":\"_String\",\"Value\":\"2.1.0-test\",\"DeployedValue\":\"2.1.0-test\"},{\"Name\":\"HolodeckSuite.EmergencyExitDelay\",\"DataType\":\"Integer\",\"Value\":\"0\",\"DeployedValue\":\"0\"},{\"Name\":\"HolodeckSuite.ProgramExpiryDate\",\"DataType\":\"DateTime\",\"Value\":\"2025-01-01T00:00:00\",\"DeployedValue\":\"2025-01-01T00:00:00\"},{\"Name\":\"HolodeckSuite.EnableAudioProcessing\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"HolodeckSuite.RenderQuality\",\"DataType\":\"Integer\",\"Value\":\"50\",\"DeployedValue\":\"50\"},{\"Name\":\"HolodeckSuite.HolographicBufferSize\",\"DataType\":\"Integer\",\"Value\":\"512\",\"DeployedValue\":\"512\"}],\"CustomSettings\":[],\"ScheduledEvents\":[{\"Name\":\"HolodeckSuite.NightlyProgramCleanup\",\"DeployedValue\":\"Disabled\",\"Value\":\"Disabled\"},{\"Name\":\"HolodeckSuite.SafetySystemCheck\",\"DeployedValue\":\"Disabled\",\"Value\":\"Disabled\"}]},\"ReplicatorSystem_Test\":{\"Constants\":[{\"Name\":\"ReplicatorSystem.MaxMaterialQueue\",\"DataType\":\"Integer\",\"Value\":\"10\",\"DeployedValue\":\"10\"},{\"Name\":\"ReplicatorSystem.EnableMaterialRecycling\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"ReplicatorSystem.RecyclingEfficiency\",\"DataType\":\"Integer\",\"Value\":\"50\",\"DeployedValue\":\"50\"},{\"Name\":\"ReplicatorSystem.MaterialPatternLibraryUrl\",\"DataType\":\"_String\",\"Value\":\"https://patterns-test.starfleet.com\",\"DeployedValue\":\"https://patterns-test.starfleet.com\"},{\"Name\":\"ReplicatorSystem.NutritionalDatabaseVersion\",\"DataType\":\"_String\",\"Value\":\"4.0.0-test\",\"DeployedValue\":\"4.0.0-test\"},{\"Name\":\"ReplicatorSystem.EnableAdvancedAlloys\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"ReplicatorSystem.MaxPowerDraw\",\"DataType\":\"Integer\",\"Value\":\"2000\",\"DeployedValue\":\"2000\"},{\"Name\":\"ReplicatorSystem.EnergyConversionRate\",\"DataType\":\"Integer\",\"Value\":\"60\",\"DeployedValue\":\"60\"},{\"Name\":\"ReplicatorSystem.PatternExpiry\",\"DataType\":\"DateTime\",\"Value\":\"2025-01-01T00:00:00\",\"DeployedValue\":\"2025-01-01T00:00:00\"},{\"Name\":\"ReplicatorSystem.EnableToxinFilter\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"ReplicatorSystem.ToxinThresholdPpm\",\"DataType\":\"Integer\",\"Value\":\"100\",\"DeployedValue\":\"100\"},{\"Name\":\"ReplicatorSystem.MaintenanceScheduleDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-04-01T06:00:00\",\"DeployedValue\":\"2024-04-01T06:00:00\"},{\"Name\":\"ReplicatorSystem.FoodGradeMode\",\"DataType\":\"_String\",\"Value\":\"basic\",\"DeployedValue\":\"basic\"},{\"Name\":\"ReplicatorSystem.EnableCustomPatterns\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"ReplicatorSystem.ReplicationLogLevel\",\"DataType\":\"_String\",\"Value\":\"debug\",\"DeployedValue\":\"debug\"},{\"Name\":\"ReplicatorSystem.PatternCacheTTL\",\"DataType\":\"Integer\",\"Value\":\"60\",\"DeployedValue\":\"60\"},{\"Name\":\"ReplicatorSystem.EnableBiogradeProgramming\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"ReplicatorSystem.LastPatternSyncDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-01-15T12:00:00\",\"DeployedValue\":\"2024-01-15T12:00:00\"}],\"CustomSettings\":[],\"ScheduledEvents\":[{\"Name\":\"ReplicatorSystem.DailyPatternSync\",\"DeployedValue\":\"Disabled\",\"Value\":\"Disabled\"},{\"Name\":\"ReplicatorSystem.WeeklyCapacityReport\",\"DeployedValue\":\"Disabled\",\"Value\":\"Disabled\"}]},\"TransporterOps_Test\":{\"Constants\":[{\"Name\":\"TransporterOps.MaxConcurrentBeamouts\",\"DataType\":\"Integer\",\"Value\":\"2\",\"DeployedValue\":\"2\"},{\"Name\":\"TransporterOps.EnableHeisenbergCompensators\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"TransporterOps.PatternBufferCapacity\",\"DataType\":\"Integer\",\"Value\":\"10\",\"DeployedValue\":\"10\"},{\"Name\":\"TransporterOps.CoordinatePrecision\",\"DataType\":\"Integer\",\"Value\":\"4\",\"DeployedValue\":\"4\"},{\"Name\":\"TransporterOps.TransporterGatewayUrl\",\"DataType\":\"_String\",\"Value\":\"https://transporter-gw-test.starfleet.com\",\"DeployedValue\":\"https://transporter-gw-test.starfleet.com\"},{\"Name\":\"TransporterOps.EnableEmergencyBeam\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"TransporterOps.LockOnTimeout\",\"DataType\":\"Integer\",\"Value\":\"30\",\"DeployedValue\":\"30\"},{\"Name\":\"TransporterOps.LastCalibrationDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-01-20T08:00:00\",\"DeployedValue\":\"2024-01-20T08:00:00\"},{\"Name\":\"TransporterOps.DematerializationRate\",\"DataType\":\"Integer\",\"Value\":\"70\",\"DeployedValue\":\"70\"},{\"Name\":\"TransporterOps.RematerializationRate\",\"DataType\":\"Integer\",\"Value\":\"70\",\"DeployedValue\":\"70\"},{\"Name\":\"TransporterOps.EnableAtmosphericTransport\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"TransporterOps.ShieldPenetrationMode\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"TransporterOps.SignalBoosterUrl\",\"DataType\":\"_String\",\"Value\":\"https://booster1-test.starfleet.com\",\"DeployedValue\":\"https://booster1-test.starfleet.com\"},{\"Name\":\"TransporterOps.QueueTimeout\",\"DataType\":\"Integer\",\"Value\":\"60\",\"DeployedValue\":\"60\"},{\"Name\":\"TransporterOps.MaxBeamRange\",\"DataType\":\"Integer\",\"Value\":\"100\",\"DeployedValue\":\"100\"},{\"Name\":\"TransporterOps.EnableTwoPadBeaming\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"TransporterOps.PatternCacheExpiry\",\"DataType\":\"DateTime\",\"Value\":\"2024-04-01T00:00:00\",\"DeployedValue\":\"2024-04-01T00:00:00\"},{\"Name\":\"TransporterOps.SafetyCheckMode\",\"DataType\":\"_String\",\"Value\":\"minimal\",\"DeployedValue\":\"minimal\"},{\"Name\":\"TransporterOps.LogLevel\",\"DataType\":\"_String\",\"Value\":\"debug\",\"DeployedValue\":\"debug\"}],\"CustomSettings\":[],\"ScheduledEvents\":[{\"Name\":\"TransporterOps.DailyPatternBufferFlush\",\"DeployedValue\":\"Disabled\",\"Value\":\"Disabled\"},{\"Name\":\"TransporterOps.WeeklyCalibrationReminder\",\"DeployedValue\":\"Disabled\",\"Value\":\"Disabled\"}]},\"WarpCoreMonitor_Test\":{\"Constants\":[{\"Name\":\"WarpCoreMonitor.CoreTemperatureThreshold\",\"DataType\":\"Integer\",\"Value\":\"5000\",\"DeployedValue\":\"5000\"},{\"Name\":\"WarpCoreMonitor.EnableAntimatterAlert\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"WarpCoreMonitor.AntimatterContainmentLevel\",\"DataType\":\"Integer\",\"Value\":\"60\",\"DeployedValue\":\"60\"},{\"Name\":\"WarpCoreMonitor.WarpFieldCoherenceMin\",\"DataType\":\"Integer\",\"Value\":\"70\",\"DeployedValue\":\"70\"},{\"Name\":\"WarpCoreMonitor.PlasmaFlowRate\",\"DataType\":\"Integer\",\"Value\":\"500\",\"DeployedValue\":\"500\"},{\"Name\":\"WarpCoreMonitor.MonitoringApiUrl\",\"DataType\":\"_String\",\"Value\":\"https://warp-mon-test.starfleet.com\",\"DeployedValue\":\"https://warp-mon-test.starfleet.com\"},{\"Name\":\"WarpCoreMonitor.EnableAutoShutdown\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"WarpCoreMonitor.ShutdownThreshold\",\"DataType\":\"Integer\",\"Value\":\"20\",\"DeployedValue\":\"20\"},{\"Name\":\"WarpCoreMonitor.LastInspectionDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-01-10T06:00:00\",\"DeployedValue\":\"2024-01-10T06:00:00\"},{\"Name\":\"WarpCoreMonitor.DilithiumCrystalUrl\",\"DataType\":\"_String\",\"Value\":\"https://dilithium-test.starfleet.com\",\"DeployedValue\":\"https://dilithium-test.starfleet.com\"},{\"Name\":\"WarpCoreMonitor.CrystalReplaceDate\",\"DataType\":\"DateTime\",\"Value\":\"2025-01-01T00:00:00\",\"DeployedValue\":\"2025-01-01T00:00:00\"},{\"Name\":\"WarpCoreMonitor.EnableRemoteDiagnostics\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.DiagnosticInterval\",\"DataType\":\"Integer\",\"Value\":\"60\",\"DeployedValue\":\"60\"},{\"Name\":\"WarpCoreMonitor.MaxWarpStress\",\"DataType\":\"Integer\",\"Value\":\"70\",\"DeployedValue\":\"70\"},{\"Name\":\"WarpCoreMonitor.EjectionProtocolEnabled\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"WarpCoreMonitor.EjectionThreshold\",\"DataType\":\"Integer\",\"Value\":\"30\",\"DeployedValue\":\"30\"},{\"Name\":\"WarpCoreMonitor.SingularityFieldStrength\",\"DataType\":\"Integer\",\"Value\":\"100\",\"DeployedValue\":\"100\"},{\"Name\":\"WarpCoreMonitor.FieldCoherenceMode\",\"DataType\":\"_String\",\"Value\":\"diagnostic\",\"DeployedValue\":\"diagnostic\"},{\"Name\":\"WarpCoreMonitor.EnableMagneticConfinement\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.ConfinementFieldFrequency\",\"DataType\":\"_String\",\"Value\":\"4200.0\",\"DeployedValue\":\"4200.0\"},{\"Name\":\"WarpCoreMonitor.NeutralizerCooldown\",\"DataType\":\"Integer\",\"Value\":\"300\",\"DeployedValue\":\"300\"},{\"Name\":\"WarpCoreMonitor.PlasmaCouplingDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-02-01T00:00:00\",\"DeployedValue\":\"2024-02-01T00:00:00\"},{\"Name\":\"WarpCoreMonitor.EnableDeuteriumMonitor\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"WarpCoreMonitor.DeuteriumLowThreshold\",\"DataType\":\"Integer\",\"Value\":\"30\",\"DeployedValue\":\"30\"},{\"Name\":\"WarpCoreMonitor.AlertNotificationUrl\",\"DataType\":\"_String\",\"Value\":\"https://alerts-test.starfleet.com\",\"DeployedValue\":\"https://alerts-test.starfleet.com\"}],\"CustomSettings\":[],\"ScheduledEvents\":[{\"Name\":\"WarpCoreMonitor.HourlyCoreStatusReport\",\"DeployedValue\":\"Disabled\",\"Value\":\"Disabled\"},{\"Name\":\"WarpCoreMonitor.DailyDilithiumCheck\",\"DeployedValue\":\"Disabled\",\"Value\":\"Disabled\"},{\"Name\":\"WarpCoreMonitor.WeeklyEjectionSystemTest\",\"DeployedValue\":\"Disabled\",\"Value\":\"Disabled\"}]},\"EnterpriseD_Acceptance\":{\"Constants\":[{\"Name\":\"EnterpriseD.EnableShieldMonitoring\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.EnableHullIntegrityAlerts\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.MaximumWarpFactor\",\"DataType\":\"Integer\",\"Value\":\"8\",\"DeployedValue\":\"8\"},{\"Name\":\"EnterpriseD.MaintenanceWindowStart\",\"DataType\":\"DateTime\",\"Value\":\"2024-01-15T01:00:00\",\"DeployedValue\":\"2024-01-15T01:00:00\"},{\"Name\":\"EnterpriseD.ShipRegistryUrl\",\"DataType\":\"_String\",\"Value\":\"https://registry-accp.starfleet.com\",\"DeployedValue\":\"https://registry-accp.starfleet.com\"},{\"Name\":\"EnterpriseD.CrewManifestSyncInterval\",\"DataType\":\"Integer\",\"Value\":\"30\",\"DeployedValue\":\"30\"},{\"Name\":\"EnterpriseD.EnableCombatReadiness\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"EnterpriseD.CommanderPINLength\",\"DataType\":\"Integer\",\"Value\":\"6\",\"DeployedValue\":\"6\"},{\"Name\":\"EnterpriseD.StarbaseSyncUrl\",\"DataType\":\"_String\",\"Value\":\"https://starbase1-accp.starfleet.com\",\"DeployedValue\":\"https://starbase1-accp.starfleet.com\"},{\"Name\":\"EnterpriseD.EnableEmergencyBroadcast\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.AlertLevelThreshold\",\"DataType\":\"Integer\",\"Value\":\"3\",\"DeployedValue\":\"3\"},{\"Name\":\"EnterpriseD.HullBreachThreshold\",\"DataType\":\"Integer\",\"Value\":\"70\",\"DeployedValue\":\"70\"},{\"Name\":\"EnterpriseD.VoiceCommandTimeout\",\"DataType\":\"Integer\",\"Value\":\"20\",\"DeployedValue\":\"20\"},{\"Name\":\"EnterpriseD.EnableDiplomacyMode\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.LastCalibrationDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-02-10T08:00:00\",\"DeployedValue\":\"2024-02-10T08:00:00\"},{\"Name\":\"EnterpriseD.CommunicationsFrequency\",\"DataType\":\"_String\",\"Value\":\"392.14\",\"DeployedValue\":\"392.14\"},{\"Name\":\"EnterpriseD.SensorArrayMode\",\"DataType\":\"_String\",\"Value\":\"enhanced\",\"DeployedValue\":\"enhanced\"},{\"Name\":\"EnterpriseD.EnableRemoteAccess\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.MaxConcurrentSessions\",\"DataType\":\"Integer\",\"Value\":\"50\",\"DeployedValue\":\"50\"},{\"Name\":\"EnterpriseD.LogRetentionDays\",\"DataType\":\"Integer\",\"Value\":\"30\",\"DeployedValue\":\"30\"},{\"Name\":\"EnterpriseD.FirstContactProtocolDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-02-01T00:00:00\",\"DeployedValue\":\"2024-02-01T00:00:00\"},{\"Name\":\"EnterpriseD.SystemHeartbeatInterval\",\"DataType\":\"Integer\",\"Value\":\"30\",\"DeployedValue\":\"30\"}],\"CustomSettings\":[],\"ScheduledEvents\":[{\"Name\":\"EnterpriseD.DailySystemDiagnostics\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"EnterpriseD.WeeklyManifestSync\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"}]},\"HolodeckSuite_Acceptance\":{\"Constants\":[{\"Name\":\"HolodeckSuite.MaxConcurrentPrograms\",\"DataType\":\"Integer\",\"Value\":\"10\",\"DeployedValue\":\"10\"},{\"Name\":\"HolodeckSuite.DefaultResolutionDpi\",\"DataType\":\"Integer\",\"Value\":\"150\",\"DeployedValue\":\"150\"},{\"Name\":\"HolodeckSuite.EnableSafetyInterlock\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"HolodeckSuite.SafetyThreshold\",\"DataType\":\"Integer\",\"Value\":\"90\",\"DeployedValue\":\"90\"},{\"Name\":\"HolodeckSuite.ProgramLibraryUrl\",\"DataType\":\"_String\",\"Value\":\"https://holodeck-lib-accp.starfleet.com\",\"DeployedValue\":\"https://holodeck-lib-accp.starfleet.com\"},{\"Name\":\"HolodeckSuite.EnableMoriartyProtocol\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"HolodeckSuite.SimulationFPS\",\"DataType\":\"Integer\",\"Value\":\"48\",\"DeployedValue\":\"48\"},{\"Name\":\"HolodeckSuite.MaxParticipants\",\"DataType\":\"Integer\",\"Value\":\"20\",\"DeployedValue\":\"20\"},{\"Name\":\"HolodeckSuite.LastProgramUpdate\",\"DataType\":\"DateTime\",\"Value\":\"2024-02-20T10:00:00\",\"DeployedValue\":\"2024-02-20T10:00:00\"},{\"Name\":\"HolodeckSuite.EnableRemoteAccess\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"HolodeckSuite.HoloGridFrequency\",\"DataType\":\"_String\",\"Value\":\"151.5\",\"DeployedValue\":\"151.5\"},{\"Name\":\"HolodeckSuite.NeuralInterfaceMode\",\"DataType\":\"_String\",\"Value\":\"standard\",\"DeployedValue\":\"standard\"},{\"Name\":\"HolodeckSuite.EnableDiagnosticsOverlay\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"HolodeckSuite.MaxSessionDurationMinutes\",\"DataType\":\"Integer\",\"Value\":\"120\",\"DeployedValue\":\"120\"},{\"Name\":\"HolodeckSuite.ContentLibraryVersion\",\"DataType\":\"_String\",\"Value\":\"2.1.0-accp\",\"DeployedValue\":\"2.1.0-accp\"},{\"Name\":\"HolodeckSuite.EmergencyExitDelay\",\"DataType\":\"Integer\",\"Value\":\"2\",\"DeployedValue\":\"2\"},{\"Name\":\"HolodeckSuite.ProgramExpiryDate\",\"DataType\":\"DateTime\",\"Value\":\"2025-06-01T00:00:00\",\"DeployedValue\":\"2025-06-01T00:00:00\"},{\"Name\":\"HolodeckSuite.EnableAudioProcessing\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"HolodeckSuite.RenderQuality\",\"DataType\":\"Integer\",\"Value\":\"75\",\"DeployedValue\":\"75\"},{\"Name\":\"HolodeckSuite.HolographicBufferSize\",\"DataType\":\"Integer\",\"Value\":\"1024\",\"DeployedValue\":\"1024\"}],\"CustomSettings\":[],\"ScheduledEvents\":[{\"Name\":\"HolodeckSuite.NightlyProgramCleanup\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"HolodeckSuite.SafetySystemCheck\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"}]},\"ReplicatorSystem_Acceptance\":{\"Constants\":[{\"Name\":\"ReplicatorSystem.MaxMaterialQueue\",\"DataType\":\"Integer\",\"Value\":\"25\",\"DeployedValue\":\"25\"},{\"Name\":\"ReplicatorSystem.EnableMaterialRecycling\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"ReplicatorSystem.RecyclingEfficiency\",\"DataType\":\"Integer\",\"Value\":\"75\",\"DeployedValue\":\"75\"},{\"Name\":\"ReplicatorSystem.MaterialPatternLibraryUrl\",\"DataType\":\"_String\",\"Value\":\"https://patterns-accp.starfleet.com\",\"DeployedValue\":\"https://patterns-accp.starfleet.com\"},{\"Name\":\"ReplicatorSystem.NutritionalDatabaseVersion\",\"DataType\":\"_String\",\"Value\":\"4.0.0-accp\",\"DeployedValue\":\"4.0.0-accp\"},{\"Name\":\"ReplicatorSystem.EnableAdvancedAlloys\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"ReplicatorSystem.MaxPowerDraw\",\"DataType\":\"Integer\",\"Value\":\"5000\",\"DeployedValue\":\"5000\"},{\"Name\":\"ReplicatorSystem.EnergyConversionRate\",\"DataType\":\"Integer\",\"Value\":\"75\",\"DeployedValue\":\"75\"},{\"Name\":\"ReplicatorSystem.PatternExpiry\",\"DataType\":\"DateTime\",\"Value\":\"2025-06-01T00:00:00\",\"DeployedValue\":\"2025-06-01T00:00:00\"},{\"Name\":\"ReplicatorSystem.EnableToxinFilter\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"ReplicatorSystem.ToxinThresholdPpm\",\"DataType\":\"Integer\",\"Value\":\"50\",\"DeployedValue\":\"50\"},{\"Name\":\"ReplicatorSystem.MaintenanceScheduleDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-04-01T04:00:00\",\"DeployedValue\":\"2024-04-01T04:00:00\"},{\"Name\":\"ReplicatorSystem.FoodGradeMode\",\"DataType\":\"_String\",\"Value\":\"standard\",\"DeployedValue\":\"standard\"},{\"Name\":\"ReplicatorSystem.EnableCustomPatterns\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"ReplicatorSystem.ReplicationLogLevel\",\"DataType\":\"_String\",\"Value\":\"info\",\"DeployedValue\":\"info\"},{\"Name\":\"ReplicatorSystem.PatternCacheTTL\",\"DataType\":\"Integer\",\"Value\":\"300\",\"DeployedValue\":\"300\"},{\"Name\":\"ReplicatorSystem.EnableBiogradeProgramming\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"ReplicatorSystem.LastPatternSyncDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-02-15T12:00:00\",\"DeployedValue\":\"2024-02-15T12:00:00\"}],\"CustomSettings\":[],\"ScheduledEvents\":[{\"Name\":\"ReplicatorSystem.DailyPatternSync\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"ReplicatorSystem.WeeklyCapacityReport\",\"DeployedValue\":\"Disabled\",\"Value\":\"Disabled\"}]},\"TransporterOps_Acceptance\":{\"Constants\":[{\"Name\":\"TransporterOps.MaxConcurrentBeamouts\",\"DataType\":\"Integer\",\"Value\":\"4\",\"DeployedValue\":\"4\"},{\"Name\":\"TransporterOps.EnableHeisenbergCompensators\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"TransporterOps.PatternBufferCapacity\",\"DataType\":\"Integer\",\"Value\":\"20\",\"DeployedValue\":\"20\"},{\"Name\":\"TransporterOps.CoordinatePrecision\",\"DataType\":\"Integer\",\"Value\":\"6\",\"DeployedValue\":\"6\"},{\"Name\":\"TransporterOps.TransporterGatewayUrl\",\"DataType\":\"_String\",\"Value\":\"https://transporter-gw-accp.starfleet.com\",\"DeployedValue\":\"https://transporter-gw-accp.starfleet.com\"},{\"Name\":\"TransporterOps.EnableEmergencyBeam\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"TransporterOps.LockOnTimeout\",\"DataType\":\"Integer\",\"Value\":\"20\",\"DeployedValue\":\"20\"},{\"Name\":\"TransporterOps.LastCalibrationDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-02-20T08:00:00\",\"DeployedValue\":\"2024-02-20T08:00:00\"},{\"Name\":\"TransporterOps.DematerializationRate\",\"DataType\":\"Integer\",\"Value\":\"85\",\"DeployedValue\":\"85\"},{\"Name\":\"TransporterOps.RematerializationRate\",\"DataType\":\"Integer\",\"Value\":\"85\",\"DeployedValue\":\"85\"},{\"Name\":\"TransporterOps.EnableAtmosphericTransport\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"TransporterOps.ShieldPenetrationMode\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"TransporterOps.SignalBoosterUrl\",\"DataType\":\"_String\",\"Value\":\"https://booster1-accp.starfleet.com\",\"DeployedValue\":\"https://booster1-accp.starfleet.com\"},{\"Name\":\"TransporterOps.QueueTimeout\",\"DataType\":\"Integer\",\"Value\":\"45\",\"DeployedValue\":\"45\"},{\"Name\":\"TransporterOps.MaxBeamRange\",\"DataType\":\"Integer\",\"Value\":\"25000\",\"DeployedValue\":\"25000\"},{\"Name\":\"TransporterOps.EnableTwoPadBeaming\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"TransporterOps.PatternCacheExpiry\",\"DataType\":\"DateTime\",\"Value\":\"2024-06-01T00:00:00\",\"DeployedValue\":\"2024-06-01T00:00:00\"},{\"Name\":\"TransporterOps.SafetyCheckMode\",\"DataType\":\"_String\",\"Value\":\"standard\",\"DeployedValue\":\"standard\"},{\"Name\":\"TransporterOps.LogLevel\",\"DataType\":\"_String\",\"Value\":\"info\",\"DeployedValue\":\"info\"}],\"CustomSettings\":[],\"ScheduledEvents\":[{\"Name\":\"TransporterOps.DailyPatternBufferFlush\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"TransporterOps.WeeklyCalibrationReminder\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"}]},\"WarpCoreMonitor_Acceptance\":{\"Constants\":[{\"Name\":\"WarpCoreMonitor.CoreTemperatureThreshold\",\"DataType\":\"Integer\",\"Value\":\"4500\",\"DeployedValue\":\"4500\"},{\"Name\":\"WarpCoreMonitor.EnableAntimatterAlert\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.AntimatterContainmentLevel\",\"DataType\":\"Integer\",\"Value\":\"80\",\"DeployedValue\":\"80\"},{\"Name\":\"WarpCoreMonitor.WarpFieldCoherenceMin\",\"DataType\":\"Integer\",\"Value\":\"80\",\"DeployedValue\":\"80\"},{\"Name\":\"WarpCoreMonitor.PlasmaFlowRate\",\"DataType\":\"Integer\",\"Value\":\"750\",\"DeployedValue\":\"750\"},{\"Name\":\"WarpCoreMonitor.MonitoringApiUrl\",\"DataType\":\"_String\",\"Value\":\"https://warp-mon-accp.starfleet.com\",\"DeployedValue\":\"https://warp-mon-accp.starfleet.com\"},{\"Name\":\"WarpCoreMonitor.EnableAutoShutdown\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.ShutdownThreshold\",\"DataType\":\"Integer\",\"Value\":\"10\",\"DeployedValue\":\"10\"},{\"Name\":\"WarpCoreMonitor.LastInspectionDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-02-10T06:00:00\",\"DeployedValue\":\"2024-02-10T06:00:00\"},{\"Name\":\"WarpCoreMonitor.DilithiumCrystalUrl\",\"DataType\":\"_String\",\"Value\":\"https://dilithium-accp.starfleet.com\",\"DeployedValue\":\"https://dilithium-accp.starfleet.com\"},{\"Name\":\"WarpCoreMonitor.CrystalReplaceDate\",\"DataType\":\"DateTime\",\"Value\":\"2025-06-01T00:00:00\",\"DeployedValue\":\"2025-06-01T00:00:00\"},{\"Name\":\"WarpCoreMonitor.EnableRemoteDiagnostics\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.DiagnosticInterval\",\"DataType\":\"Integer\",\"Value\":\"30\",\"DeployedValue\":\"30\"},{\"Name\":\"WarpCoreMonitor.MaxWarpStress\",\"DataType\":\"Integer\",\"Value\":\"80\",\"DeployedValue\":\"80\"},{\"Name\":\"WarpCoreMonitor.EjectionProtocolEnabled\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.EjectionThreshold\",\"DataType\":\"Integer\",\"Value\":\"15\",\"DeployedValue\":\"15\"},{\"Name\":\"WarpCoreMonitor.SingularityFieldStrength\",\"DataType\":\"Integer\",\"Value\":\"250\",\"DeployedValue\":\"250\"},{\"Name\":\"WarpCoreMonitor.FieldCoherenceMode\",\"DataType\":\"_String\",\"Value\":\"standard\",\"DeployedValue\":\"standard\"},{\"Name\":\"WarpCoreMonitor.EnableMagneticConfinement\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.ConfinementFieldFrequency\",\"DataType\":\"_String\",\"Value\":\"4800.0\",\"DeployedValue\":\"4800.0\"},{\"Name\":\"WarpCoreMonitor.NeutralizerCooldown\",\"DataType\":\"Integer\",\"Value\":\"180\",\"DeployedValue\":\"180\"},{\"Name\":\"WarpCoreMonitor.PlasmaCouplingDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-02-15T00:00:00\",\"DeployedValue\":\"2024-02-15T00:00:00\"},{\"Name\":\"WarpCoreMonitor.EnableDeuteriumMonitor\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.DeuteriumLowThreshold\",\"DataType\":\"Integer\",\"Value\":\"20\",\"DeployedValue\":\"20\"},{\"Name\":\"WarpCoreMonitor.AlertNotificationUrl\",\"DataType\":\"_String\",\"Value\":\"https://alerts-accp.starfleet.com\",\"DeployedValue\":\"https://alerts-accp.starfleet.com\"}],\"CustomSettings\":[],\"ScheduledEvents\":[{\"Name\":\"WarpCoreMonitor.HourlyCoreStatusReport\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"WarpCoreMonitor.DailyDilithiumCheck\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"WarpCoreMonitor.WeeklyEjectionSystemTest\",\"DeployedValue\":\"Disabled\",\"Value\":\"Disabled\"}]},\"EnterpriseD_Production\":{\"Constants\":[{\"Name\":\"EnterpriseD.EnableShieldMonitoring\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.EnableHullIntegrityAlerts\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.MaximumWarpFactor\",\"DataType\":\"Integer\",\"Value\":\"9\",\"DeployedValue\":\"9\"},{\"Name\":\"EnterpriseD.MaintenanceWindowStart\",\"DataType\":\"DateTime\",\"Value\":\"2024-01-15T00:00:00\",\"DeployedValue\":\"2024-01-15T00:00:00\"},{\"Name\":\"EnterpriseD.ShipRegistryUrl\",\"DataType\":\"_String\",\"Value\":\"https://registry.starfleet.com\",\"DeployedValue\":\"https://registry.starfleet.com\"},{\"Name\":\"EnterpriseD.CrewManifestSyncInterval\",\"DataType\":\"Integer\",\"Value\":\"15\",\"DeployedValue\":\"15\"},{\"Name\":\"EnterpriseD.EnableCombatReadiness\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.CommanderPINLength\",\"DataType\":\"Integer\",\"Value\":\"8\",\"DeployedValue\":\"8\"},{\"Name\":\"EnterpriseD.StarbaseSyncUrl\",\"DataType\":\"_String\",\"Value\":\"https://starbase1.starfleet.com\",\"DeployedValue\":\"https://starbase1.starfleet.com\"},{\"Name\":\"EnterpriseD.EnableEmergencyBroadcast\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.AlertLevelThreshold\",\"DataType\":\"Integer\",\"Value\":\"2\",\"DeployedValue\":\"2\"},{\"Name\":\"EnterpriseD.HullBreachThreshold\",\"DataType\":\"Integer\",\"Value\":\"60\",\"DeployedValue\":\"60\"},{\"Name\":\"EnterpriseD.VoiceCommandTimeout\",\"DataType\":\"Integer\",\"Value\":\"15\",\"DeployedValue\":\"15\"},{\"Name\":\"EnterpriseD.EnableDiplomacyMode\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.LastCalibrationDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-03-10T08:00:00\",\"DeployedValue\":\"2024-03-10T08:00:00\"},{\"Name\":\"EnterpriseD.CommunicationsFrequency\",\"DataType\":\"_String\",\"Value\":\"432.14\",\"DeployedValue\":\"432.14\"},{\"Name\":\"EnterpriseD.SensorArrayMode\",\"DataType\":\"_String\",\"Value\":\"combat\",\"DeployedValue\":\"combat\"},{\"Name\":\"EnterpriseD.EnableRemoteAccess\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"EnterpriseD.MaxConcurrentSessions\",\"DataType\":\"Integer\",\"Value\":\"25\",\"DeployedValue\":\"25\"},{\"Name\":\"EnterpriseD.LogRetentionDays\",\"DataType\":\"Integer\",\"Value\":\"90\",\"DeployedValue\":\"90\"},{\"Name\":\"EnterpriseD.FirstContactProtocolDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-03-01T00:00:00\",\"DeployedValue\":\"2024-03-01T00:00:00\"},{\"Name\":\"EnterpriseD.SystemHeartbeatInterval\",\"DataType\":\"Integer\",\"Value\":\"10\",\"DeployedValue\":\"10\"}],\"CustomSettings\":[],\"ScheduledEvents\":[{\"Name\":\"EnterpriseD.DailySystemDiagnostics\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"EnterpriseD.WeeklyManifestSync\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"}]},\"HolodeckSuite_Production\":{\"Constants\":[{\"Name\":\"HolodeckSuite.MaxConcurrentPrograms\",\"DataType\":\"Integer\",\"Value\":\"20\",\"DeployedValue\":\"20\"},{\"Name\":\"HolodeckSuite.DefaultResolutionDpi\",\"DataType\":\"Integer\",\"Value\":\"300\",\"DeployedValue\":\"300\"},{\"Name\":\"HolodeckSuite.EnableSafetyInterlock\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"HolodeckSuite.SafetyThreshold\",\"DataType\":\"Integer\",\"Value\":\"95\",\"DeployedValue\":\"95\"},{\"Name\":\"HolodeckSuite.ProgramLibraryUrl\",\"DataType\":\"_String\",\"Value\":\"https://holodeck-lib.starfleet.com\",\"DeployedValue\":\"https://holodeck-lib.starfleet.com\"},{\"Name\":\"HolodeckSuite.EnableMoriartyProtocol\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"HolodeckSuite.SimulationFPS\",\"DataType\":\"Integer\",\"Value\":\"60\",\"DeployedValue\":\"60\"},{\"Name\":\"HolodeckSuite.MaxParticipants\",\"DataType\":\"Integer\",\"Value\":\"50\",\"DeployedValue\":\"50\"},{\"Name\":\"HolodeckSuite.LastProgramUpdate\",\"DataType\":\"DateTime\",\"Value\":\"2024-03-20T10:00:00\",\"DeployedValue\":\"2024-03-20T10:00:00\"},{\"Name\":\"HolodeckSuite.EnableRemoteAccess\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"HolodeckSuite.HoloGridFrequency\",\"DataType\":\"_String\",\"Value\":\"161.5\",\"DeployedValue\":\"161.5\"},{\"Name\":\"HolodeckSuite.NeuralInterfaceMode\",\"DataType\":\"_String\",\"Value\":\"full\",\"DeployedValue\":\"full\"},{\"Name\":\"HolodeckSuite.EnableDiagnosticsOverlay\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"HolodeckSuite.MaxSessionDurationMinutes\",\"DataType\":\"Integer\",\"Value\":\"480\",\"DeployedValue\":\"480\"},{\"Name\":\"HolodeckSuite.ContentLibraryVersion\",\"DataType\":\"_String\",\"Value\":\"2.1.0\",\"DeployedValue\":\"2.1.0\"},{\"Name\":\"HolodeckSuite.EmergencyExitDelay\",\"DataType\":\"Integer\",\"Value\":\"5\",\"DeployedValue\":\"5\"},{\"Name\":\"HolodeckSuite.ProgramExpiryDate\",\"DataType\":\"DateTime\",\"Value\":\"2026-01-01T00:00:00\",\"DeployedValue\":\"2026-01-01T00:00:00\"},{\"Name\":\"HolodeckSuite.EnableAudioProcessing\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"HolodeckSuite.RenderQuality\",\"DataType\":\"Integer\",\"Value\":\"100\",\"DeployedValue\":\"100\"},{\"Name\":\"HolodeckSuite.HolographicBufferSize\",\"DataType\":\"Integer\",\"Value\":\"4096\",\"DeployedValue\":\"4096\"}],\"CustomSettings\":[],\"ScheduledEvents\":[{\"Name\":\"HolodeckSuite.NightlyProgramCleanup\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"HolodeckSuite.SafetySystemCheck\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"}]},\"ReplicatorSystem_Production\":{\"Constants\":[{\"Name\":\"ReplicatorSystem.MaxMaterialQueue\",\"DataType\":\"Integer\",\"Value\":\"50\",\"DeployedValue\":\"50\"},{\"Name\":\"ReplicatorSystem.EnableMaterialRecycling\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"ReplicatorSystem.RecyclingEfficiency\",\"DataType\":\"Integer\",\"Value\":\"90\",\"DeployedValue\":\"90\"},{\"Name\":\"ReplicatorSystem.MaterialPatternLibraryUrl\",\"DataType\":\"_String\",\"Value\":\"https://patterns.starfleet.com\",\"DeployedValue\":\"https://patterns.starfleet.com\"},{\"Name\":\"ReplicatorSystem.NutritionalDatabaseVersion\",\"DataType\":\"_String\",\"Value\":\"4.0.0\",\"DeployedValue\":\"4.0.0\"},{\"Name\":\"ReplicatorSystem.EnableAdvancedAlloys\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"ReplicatorSystem.MaxPowerDraw\",\"DataType\":\"Integer\",\"Value\":\"10000\",\"DeployedValue\":\"10000\"},{\"Name\":\"ReplicatorSystem.EnergyConversionRate\",\"DataType\":\"Integer\",\"Value\":\"95\",\"DeployedValue\":\"95\"},{\"Name\":\"ReplicatorSystem.PatternExpiry\",\"DataType\":\"DateTime\",\"Value\":\"2026-01-01T00:00:00\",\"DeployedValue\":\"2026-01-01T00:00:00\"},{\"Name\":\"ReplicatorSystem.EnableToxinFilter\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"ReplicatorSystem.ToxinThresholdPpm\",\"DataType\":\"Integer\",\"Value\":\"10\",\"DeployedValue\":\"10\"},{\"Name\":\"ReplicatorSystem.MaintenanceScheduleDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-04-01T02:00:00\",\"DeployedValue\":\"2024-04-01T02:00:00\"},{\"Name\":\"ReplicatorSystem.FoodGradeMode\",\"DataType\":\"_String\",\"Value\":\"premium\",\"DeployedValue\":\"premium\"},{\"Name\":\"ReplicatorSystem.EnableCustomPatterns\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"ReplicatorSystem.ReplicationLogLevel\",\"DataType\":\"_String\",\"Value\":\"warn\",\"DeployedValue\":\"warn\"},{\"Name\":\"ReplicatorSystem.PatternCacheTTL\",\"DataType\":\"Integer\",\"Value\":\"900\",\"DeployedValue\":\"900\"},{\"Name\":\"ReplicatorSystem.EnableBiogradeProgramming\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"ReplicatorSystem.LastPatternSyncDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-03-15T12:00:00\",\"DeployedValue\":\"2024-03-15T12:00:00\"}],\"CustomSettings\":[],\"ScheduledEvents\":[{\"Name\":\"ReplicatorSystem.DailyPatternSync\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"ReplicatorSystem.WeeklyCapacityReport\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"}]},\"TransporterOps_Production\":{\"Constants\":[{\"Name\":\"TransporterOps.MaxConcurrentBeamouts\",\"DataType\":\"Integer\",\"Value\":\"6\",\"DeployedValue\":\"6\"},{\"Name\":\"TransporterOps.EnableHeisenbergCompensators\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"TransporterOps.PatternBufferCapacity\",\"DataType\":\"Integer\",\"Value\":\"30\",\"DeployedValue\":\"30\"},{\"Name\":\"TransporterOps.CoordinatePrecision\",\"DataType\":\"Integer\",\"Value\":\"8\",\"DeployedValue\":\"8\"},{\"Name\":\"TransporterOps.TransporterGatewayUrl\",\"DataType\":\"_String\",\"Value\":\"https://transporter-gw.starfleet.com\",\"DeployedValue\":\"https://transporter-gw.starfleet.com\"},{\"Name\":\"TransporterOps.EnableEmergencyBeam\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"TransporterOps.LockOnTimeout\",\"DataType\":\"Integer\",\"Value\":\"10\",\"DeployedValue\":\"10\"},{\"Name\":\"TransporterOps.LastCalibrationDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-03-20T08:00:00\",\"DeployedValue\":\"2024-03-20T08:00:00\"},{\"Name\":\"TransporterOps.DematerializationRate\",\"DataType\":\"Integer\",\"Value\":\"100\",\"DeployedValue\":\"100\"},{\"Name\":\"TransporterOps.RematerializationRate\",\"DataType\":\"Integer\",\"Value\":\"100\",\"DeployedValue\":\"100\"},{\"Name\":\"TransporterOps.EnableAtmosphericTransport\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"TransporterOps.ShieldPenetrationMode\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"TransporterOps.SignalBoosterUrl\",\"DataType\":\"_String\",\"Value\":\"https://booster1.starfleet.com\",\"DeployedValue\":\"https://booster1.starfleet.com\"},{\"Name\":\"TransporterOps.QueueTimeout\",\"DataType\":\"Integer\",\"Value\":\"30\",\"DeployedValue\":\"30\"},{\"Name\":\"TransporterOps.MaxBeamRange\",\"DataType\":\"Integer\",\"Value\":\"40000\",\"DeployedValue\":\"40000\"},{\"Name\":\"TransporterOps.EnableTwoPadBeaming\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"TransporterOps.PatternCacheExpiry\",\"DataType\":\"DateTime\",\"Value\":\"2024-12-01T00:00:00\",\"DeployedValue\":\"2024-12-01T00:00:00\"},{\"Name\":\"TransporterOps.SafetyCheckMode\",\"DataType\":\"_String\",\"Value\":\"full\",\"DeployedValue\":\"full\"},{\"Name\":\"TransporterOps.LogLevel\",\"DataType\":\"_String\",\"Value\":\"error\",\"DeployedValue\":\"error\"}],\"CustomSettings\":[],\"ScheduledEvents\":[{\"Name\":\"TransporterOps.DailyPatternBufferFlush\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"TransporterOps.WeeklyCalibrationReminder\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"}]},\"WarpCoreMonitor_Production\":{\"Constants\":[{\"Name\":\"WarpCoreMonitor.CoreTemperatureThreshold\",\"DataType\":\"Integer\",\"Value\":\"4000\",\"DeployedValue\":\"4000\"},{\"Name\":\"WarpCoreMonitor.EnableAntimatterAlert\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.AntimatterContainmentLevel\",\"DataType\":\"Integer\",\"Value\":\"95\",\"DeployedValue\":\"95\"},{\"Name\":\"WarpCoreMonitor.WarpFieldCoherenceMin\",\"DataType\":\"Integer\",\"Value\":\"92\",\"DeployedValue\":\"92\"},{\"Name\":\"WarpCoreMonitor.PlasmaFlowRate\",\"DataType\":\"Integer\",\"Value\":\"1000\",\"DeployedValue\":\"1000\"},{\"Name\":\"WarpCoreMonitor.MonitoringApiUrl\",\"DataType\":\"_String\",\"Value\":\"https://warp-mon.starfleet.com\",\"DeployedValue\":\"https://warp-mon.starfleet.com\"},{\"Name\":\"WarpCoreMonitor.EnableAutoShutdown\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.ShutdownThreshold\",\"DataType\":\"Integer\",\"Value\":\"5\",\"DeployedValue\":\"5\"},{\"Name\":\"WarpCoreMonitor.LastInspectionDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-03-10T06:00:00\",\"DeployedValue\":\"2024-03-10T06:00:00\"},{\"Name\":\"WarpCoreMonitor.DilithiumCrystalUrl\",\"DataType\":\"_String\",\"Value\":\"https://dilithium.starfleet.com\",\"DeployedValue\":\"https://dilithium.starfleet.com\"},{\"Name\":\"WarpCoreMonitor.CrystalReplaceDate\",\"DataType\":\"DateTime\",\"Value\":\"2026-01-01T00:00:00\",\"DeployedValue\":\"2026-01-01T00:00:00\"},{\"Name\":\"WarpCoreMonitor.EnableRemoteDiagnostics\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"WarpCoreMonitor.DiagnosticInterval\",\"DataType\":\"Integer\",\"Value\":\"10\",\"DeployedValue\":\"10\"},{\"Name\":\"WarpCoreMonitor.MaxWarpStress\",\"DataType\":\"Integer\",\"Value\":\"90\",\"DeployedValue\":\"90\"},{\"Name\":\"WarpCoreMonitor.EjectionProtocolEnabled\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.EjectionThreshold\",\"DataType\":\"Integer\",\"Value\":\"8\",\"DeployedValue\":\"8\"},{\"Name\":\"WarpCoreMonitor.SingularityFieldStrength\",\"DataType\":\"Integer\",\"Value\":\"500\",\"DeployedValue\":\"500\"},{\"Name\":\"WarpCoreMonitor.FieldCoherenceMode\",\"DataType\":\"_String\",\"Value\":\"combat\",\"DeployedValue\":\"combat\"},{\"Name\":\"WarpCoreMonitor.EnableMagneticConfinement\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.ConfinementFieldFrequency\",\"DataType\":\"_String\",\"Value\":\"5200.0\",\"DeployedValue\":\"5200.0\"},{\"Name\":\"WarpCoreMonitor.NeutralizerCooldown\",\"DataType\":\"Integer\",\"Value\":\"60\",\"DeployedValue\":\"60\"},{\"Name\":\"WarpCoreMonitor.PlasmaCouplingDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-03-01T00:00:00\",\"DeployedValue\":\"2024-03-01T00:00:00\"},{\"Name\":\"WarpCoreMonitor.EnableDeuteriumMonitor\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.DeuteriumLowThreshold\",\"DataType\":\"Integer\",\"Value\":\"10\",\"DeployedValue\":\"10\"},{\"Name\":\"WarpCoreMonitor.AlertNotificationUrl\",\"DataType\":\"_String\",\"Value\":\"https://alerts.starfleet.com\",\"DeployedValue\":\"https://alerts.starfleet.com\"}],\"CustomSettings\":[],\"ScheduledEvents\":[{\"Name\":\"WarpCoreMonitor.HourlyCoreStatusReport\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"WarpCoreMonitor.DailyDilithiumCheck\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"WarpCoreMonitor.WeeklyEjectionSystemTest\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"}]}}"
+    }
+  ],
+  "callbacks": []
+}

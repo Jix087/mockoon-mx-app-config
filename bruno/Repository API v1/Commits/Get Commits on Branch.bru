@@ -1,0 +1,27 @@
+meta {
+  name: Get Commits on Branch
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{repository_base_url}}/v1/repositories/{{app_id}}/branches/{{branch_name}}/commits
+  body: none
+  auth: none
+}
+
+params:query {
+  ~limit: 20
+  ~cursor:
+}
+
+headers {
+  Authorization: MxToken {{mendix_pat}}
+  Content-Type: application/json
+}
+
+docs {
+  Retrieve commits on a branch in reverse chronological order.
+  Optional query params: limit (default 20, max 100), cursor (pagination token).
+  Branch name must be URL-encoded.
+}

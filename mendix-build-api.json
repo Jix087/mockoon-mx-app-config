@@ -1,0 +1,453 @@
+{
+  "uuid": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+  "lastMigration": 33,
+  "name": "Mendix Build API v1",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3002,
+  "hostname": "",
+  "folders": [
+    {
+      "uuid": "bf000001-0000-0000-0000-000000000001",
+      "name": "Packages",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "b1000001-0000-0000-0000-000000000001"
+        },
+        {
+          "type": "route",
+          "uuid": "b1000002-0000-0000-0000-000000000002"
+        },
+        {
+          "type": "route",
+          "uuid": "b1000003-0000-0000-0000-000000000003"
+        },
+        {
+          "type": "route",
+          "uuid": "b1000004-0000-0000-0000-000000000004"
+        },
+        {
+          "type": "route",
+          "uuid": "b1000005-0000-0000-0000-000000000005"
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "uuid": "b1000001-0000-0000-0000-000000000001",
+      "type": "http",
+      "documentation": "Retrieve all deployment packages available for a specific app.",
+      "method": "get",
+      "endpoint": "api/1/apps/:AppId/packages",
+      "responses": [
+        {
+          "uuid": "a5cdb70c-d898-4e88-98a1-cf14107d06df",
+          "body": "{{{data 'buildPackages'}}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - List of packages",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "7ab1a377-f7be-4c50-9242-4df0fd77aebd",
+          "body": "{\"errorMessage\":\"INVALID_APPID\"}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Bad Request - Invalid AppId",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Mendix-ApiKey",
+              "operator": "null",
+              "invert": false,
+              "value": ""
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "b1000002-0000-0000-0000-000000000002",
+      "type": "http",
+      "documentation": "Start building a deployment package from the team server project.",
+      "method": "post",
+      "endpoint": "api/1/apps/:AppId/packages",
+      "responses": [
+        {
+          "uuid": "49430318-6b5d-4c0b-b255-cc150c51535a",
+          "body": "{{setVar 'pid' (faker 'string.uuid')}}\n{{setData 'set' 'buildPackages' @pid (object PackageId=@pid Name=(concat (body 'Branch' 'Main line') '-' (body 'Version' '1.0.0') '.mda') Description=(body 'Description' '') Version=(body 'Version' '1.0.0') Creator='build-service@starfleet.com' CreationDate=(now 'x') Status='Queued' Size=0)}}\n{\"PackageId\":\"{{@pid}}\"}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Build started, returns PackageId",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "ea6251e0-86c9-4ee4-8492-8ecd17883a8d",
+          "body": "{\"errorMessage\":\"INVALID_PARAMETERS\",\"message\":\"Branch and Version are required\"}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Bad Request - Invalid parameters",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "b1000003-0000-0000-0000-000000000003",
+      "type": "http",
+      "documentation": "Retrieve a specific deployment package. Add ?url=true to include a download URL.",
+      "method": "get",
+      "endpoint": "api/1/apps/:AppId/packages/:PackageId",
+      "responses": [
+        {
+          "uuid": "16db9e24-4108-4554-ba94-6048b4fe3da9",
+          "body": "{{{stringify (find (dataRaw 'buildPackages') (object PackageId=(urlParam 'PackageId')))}}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Package info (no URL)",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "url",
+              "operator": "equals",
+              "invert": true,
+              "value": "true"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "630330f9-0325-4059-81fe-58102bc963bd",
+          "body": "{{setVar 'pkg' (find (dataRaw 'buildPackages') (object PackageId=(urlParam 'PackageId')))}}\n{{#if @pkg}}{{{stringify (object PackageId=(lookup @pkg 'PackageId') Name=(lookup @pkg 'Name') Description=(lookup @pkg 'Description') Version=(lookup @pkg 'Version') Creator=(lookup @pkg 'Creator') CreationDate=(lookup @pkg 'CreationDate') Status=(lookup @pkg 'Status') Size=(lookup @pkg 'Size') Url=(object Location=(concat \"https://cdn.mendix.com/packages/\" (urlParam 'PackageId') \".mda?token=\" (faker 'string.alphanumeric' 32)) TTL=3600))}}}{{else}}{\"errorMessage\":\"PACKAGE_NOT_FOUND\"}{{/if}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK - Package info with download URL",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "url",
+              "operator": "equals",
+              "invert": false,
+              "value": "true"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "1212588c-0b75-4ed1-b83e-a37d08c82ca7",
+          "body": "{\"errorMessage\":\"PACKAGE_NOT_FOUND\"}",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "Not Found",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "b1000004-0000-0000-0000-000000000004",
+      "type": "http",
+      "documentation": "Delete a specific deployment package.",
+      "method": "delete",
+      "endpoint": "api/1/apps/:AppId/packages/:PackageId",
+      "responses": [
+        {
+          "uuid": "083ca188-7d09-4594-9658-43e144bfc396",
+          "body": "",
+          "latency": 0,
+          "statusCode": 204,
+          "label": "No Content - Package deleted",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "56597e91-c5df-4a12-87a6-f05dc6a27102",
+          "body": "{\"errorMessage\":\"PACKAGE_NOT_FOUND\"}",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "Not Found",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "e9e7a4fa-0d9f-4687-b43c-8c73c7402aef",
+          "body": "{\"errorMessage\":\"PACKAGE_IN_USE\",\"message\":\"Package is currently deployed to an environment\"}",
+          "latency": 0,
+          "statusCode": 409,
+          "label": "Conflict - Package in use",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "b1000005-0000-0000-0000-000000000005",
+      "type": "http",
+      "documentation": "DEPRECATED: Download a deployment package. Use GET /packages/:PackageId?url=true instead.",
+      "method": "get",
+      "endpoint": "api/1/apps/:AppId/packages/:PackageId/download",
+      "responses": [
+        {
+          "uuid": "cbc576ea-2617-4ef7-a9d8-3ea7ac79c29f",
+          "body": "{\"errorMessage\":\"DEPRECATED\",\"message\":\"This endpoint is deprecated. Use GET /api/1/apps/:AppId/packages/:PackageId?url=true to obtain a download URL.\"}",
+          "latency": 0,
+          "statusCode": 410,
+          "label": "Gone - Endpoint deprecated",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "4f065677-b343-4abf-9124-75cee651d87b",
+          "body": "{\"errorMessage\":\"PACKAGE_NOT_FOUND\"}",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "Not Found",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "folder",
+      "uuid": "bf000001-0000-0000-0000-000000000001"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [
+    {
+      "uuid": "bd000001-0000-0000-0000-000000000001",
+      "id": "buildPackages",
+      "name": "buildPackages",
+      "documentation": "Deployment packages for the Build API. Seeded with 5 sample packages.",
+      "value": "[{\"PackageId\":\"a1b2c3d4-0001-0000-0000-000000000001\",\"Name\":\"Main line-2.5.0.312.mda\",\"Description\":\"Release candidate for production deployment\",\"Version\":\"2.5.0.312\",\"Creator\":\"jean-luc.picard@starfleet.com\",\"CreationDate\":1710000000000,\"Status\":\"Succeeded\",\"Size\":18874368},{\"PackageId\":\"a1b2c3d4-0002-0000-0000-000000000002\",\"Name\":\"Main line-2.4.0.290.mda\",\"Description\":\"Previous stable release\",\"Version\":\"2.4.0.290\",\"Creator\":\"william.riker@starfleet.com\",\"CreationDate\":1709000000000,\"Status\":\"Succeeded\",\"Size\":17825792},{\"PackageId\":\"a1b2c3d4-0003-0000-0000-000000000003\",\"Name\":\"feature/warp-drive-2.6.0.1.mda\",\"Description\":\"Warp drive feature branch build\",\"Version\":\"2.6.0.1\",\"Creator\":\"geordi.laforge@starfleet.com\",\"CreationDate\":1710500000000,\"Status\":\"Building\",\"Size\":0},{\"PackageId\":\"a1b2c3d4-0004-0000-0000-000000000004\",\"Name\":\"Main line-2.3.0.271.mda\",\"Description\":\"Legacy package \\u2014 do not deploy\",\"Version\":\"2.3.0.271\",\"Creator\":\"data.android@starfleet.com\",\"CreationDate\":1707000000000,\"Status\":\"Succeeded\",\"Size\":16777216},{\"PackageId\":\"a1b2c3d4-0005-0000-0000-000000000005\",\"Name\":\"hotfix/shield-matrix-2.5.1.1.mda\",\"Description\":\"Emergency shield matrix patch\",\"Version\":\"2.5.1.1\",\"Creator\":\"worf.son-of-mogh@starfleet.com\",\"CreationDate\":1710200000000,\"Status\":\"Failed\",\"Size\":0}]"
+    }
+  ],
+  "callbacks": []
+}

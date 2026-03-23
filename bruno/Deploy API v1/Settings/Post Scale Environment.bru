@@ -1,0 +1,25 @@
+meta {
+  name: Post Scale Environment
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{deploy_base_url}}/api/1/apps/{{app_id}}/environments/{{mode}}/scale
+  body: json
+  auth: none
+}
+
+headers {
+  Mendix-Username: {{mendix_username}}
+  Mendix-ApiKey: {{mendix_apikey}}
+  Content-Type: application/json
+}
+
+body:json {
+{
+  "Instances": 2,
+  "MemoryPerInstance": 2048
+}
+}
+

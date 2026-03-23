@@ -1,0 +1,418 @@
+{
+  "uuid": "e5f6a7b8-c9d0-1234-ef56-789012345678",
+  "lastMigration": 33,
+  "name": "Mendix Git Actions API",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3004,
+  "hostname": "",
+  "folders": [
+    {
+      "uuid": "f57def1a-62dc-4c08-92e1-3ad04b73efc2",
+      "name": "Workflow Dispatches",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "aa3152b7-45b2-4492-b267-bb9b19ff0cf4"
+        },
+        {
+          "type": "route",
+          "uuid": "c91d6d61-de59-4b6a-8720-e6150824f1ba"
+        },
+        {
+          "type": "route",
+          "uuid": "136d5e9b-8696-4102-90a7-3fdeddb4f560"
+        },
+        {
+          "type": "route",
+          "uuid": "d360913d-8fa7-4000-83b9-5e5fc87ebbe1"
+        }
+      ]
+    },
+    {
+      "uuid": "12e8b792-b076-457e-9dc3-0fe7935f6fde",
+      "name": "Callback Receiver",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "682e5110-dd59-4ded-9765-f8b8cb278e62"
+        },
+        {
+          "type": "route",
+          "uuid": "793db2f8-6d74-455b-bf74-b09d466a7f8a"
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "uuid": "aa3152b7-45b2-4492-b267-bb9b19ff0cf4",
+      "type": "http",
+      "documentation": "Trigger a workflow dispatch to start a build. Mirrors the GitHub Actions POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches endpoint. Returns 204 No Content immediately. A build-complete callback is sent to the URL in X-Callback-Url header (or http://localhost:3004/callback) after the configured latency (default 30s).",
+      "method": "post",
+      "endpoint": "repos/:owner/:repo/actions/workflows/:workflow_id/dispatches",
+      "responses": [
+        {
+          "uuid": "2346ad2f-cb33-404c-836c-5d57cf8665ec",
+          "body": "{{~setData 'set' 'workflowRuns' 'pendingRunId' (faker 'string.uuid')~}}{{~setData 'set' 'workflowRuns' (dataRaw 'workflowRuns' 'pendingRunId') (object run_id=(dataRaw 'workflowRuns' 'pendingRunId') status='queued' workflow_id=(urlParam 'workflow_id') ref=(body 'ref') mendix_app_id=(body 'inputs.mendix_app_id') mendix_process_id=(body 'inputs.mendix_process_id') mendix_project_id=(body 'inputs.mendix_project_id') version=(body 'inputs.version') created_at=(now 'iso'))~}}",
+          "latency": 0,
+          "statusCode": 204,
+          "label": "No Content — workflow dispatch triggered, callback fires after delay",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": [
+            {
+              "uuid": "7f13d649-b15e-4038-ad93-c0c09e3b7ba3",
+              "latency": 5000
+            }
+          ]
+        },
+        {
+          "uuid": "89dab9fa-88e4-47dd-89d4-53993b248086",
+          "body": "{\"message\":\"Unprocessable Entity\",\"errors\":[{\"resource\":\"WorkflowDispatch\",\"code\":\"required\",\"field\":\"ref\"}]}",
+          "latency": 0,
+          "statusCode": 422,
+          "label": "Unprocessable — missing ref in body",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "ref",
+              "operator": "null",
+              "invert": false,
+              "value": ""
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "bf6d7d1f-5bc7-434a-b13e-50f52e80e85d",
+          "body": "{\"message\":\"Unauthorized\",\"documentation_url\":\"https://docs.github.com/rest\"}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "Unauthorized — missing Authorization header",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "operator": "null",
+              "invert": false,
+              "value": ""
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "c91d6d61-de59-4b6a-8720-e6150824f1ba",
+      "type": "http",
+      "documentation": "List workflows configured for the repository.",
+      "method": "get",
+      "endpoint": "repos/:owner/:repo/actions/workflows",
+      "responses": [
+        {
+          "uuid": "a6337788-172e-4a7f-bb5f-98888a466fb3",
+          "body": "{\"total_count\":1,\"workflows\":[{\"id\":1,\"name\":\"Mendix Build Pipeline\",\"path\":\".github/workflows/mendix-build.yml\",\"state\":\"active\",\"created_at\":\"2024-01-01T00:00:00Z\",\"updated_at\":\"2024-03-01T00:00:00Z\",\"url\":\"http://localhost:3004/repos/{{urlParam 'owner'}}/{{urlParam 'repo'}}/actions/workflows/1\",\"html_url\":\"https://github.com/{{urlParam 'owner'}}/{{urlParam 'repo'}}/actions/workflows/mendix-build.yml\",\"badge_url\":\"https://github.com/{{urlParam 'owner'}}/{{urlParam 'repo'}}/actions/workflows/mendix-build.yml/badge.svg\"}]}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK — list of workflows",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "136d5e9b-8696-4102-90a7-3fdeddb4f560",
+      "type": "http",
+      "documentation": "List workflow runs for the repository. Returns all tracked runs stored in the workflowRuns data bucket.",
+      "method": "get",
+      "endpoint": "repos/:owner/:repo/actions/runs",
+      "responses": [
+        {
+          "uuid": "ed181c37-c768-4eaa-88ff-09ccf826cb26",
+          "body": "{{setVar 'runs' (dataRaw 'workflowRuns')}}{\"total_count\":{{#if (keys @runs)}}{{len (keys @runs)}}{{else}}0{{/if}},\"workflow_runs\":[{{#each (keys @runs)}}{{#unless (eq this 'pendingRunId')}}{{#if @index}},{{/if}}{{{stringify (lookup (dataRaw 'workflowRuns') this)}}}{{/unless}}{{/each}}]}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK — list of workflow runs",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "d360913d-8fa7-4000-83b9-5e5fc87ebbe1",
+      "type": "http",
+      "documentation": "Get a specific workflow run by run_id.",
+      "method": "get",
+      "endpoint": "repos/:owner/:repo/actions/runs/:run_id",
+      "responses": [
+        {
+          "uuid": "23c3fbd0-ccdf-4fd6-9e1d-6cfe3dbeb744",
+          "body": "{{setVar 'run' (dataRaw 'workflowRuns' (urlParam 'run_id'))}}{{#if @run}}{{{stringify @run}}}{{else}}{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest\"}{{/if}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK — workflow run details",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "682e5110-dd59-4ded-9765-f8b8cb278e62",
+      "type": "http",
+      "documentation": "Receive the build-complete callback. Stores the payload in the callbackLog bucket and returns 200. Use this as the default X-Callback-Url target when testing locally: http://localhost:3004/callback",
+      "method": "post",
+      "endpoint": "callback",
+      "responses": [
+        {
+          "uuid": "21f08c96-6541-4739-bcab-85ef3b9ca5a4",
+          "body": "{{~setData 'push' 'callbackLog' '' (bodyRaw)~}}{\"status\":\"received\",\"processId\":\"{{body 'ProcessID'}}\",\"packageId\":\"{{body 'PackageID'}}\",\"message\":\"Callback logged successfully\"}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK — callback received and logged",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "793db2f8-6d74-455b-bf74-b09d466a7f8a",
+      "type": "http",
+      "documentation": "Retrieve all received callbacks from the log. Useful for inspecting what was sent back by the mock.",
+      "method": "get",
+      "endpoint": "callback",
+      "responses": [
+        {
+          "uuid": "d655d5d6-e6ba-42b9-b832-abf6fa44fd1e",
+          "body": "{\"count\":{{len (dataRaw 'callbackLog')}},\"callbacks\":{{{data 'callbackLog'}}}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK — callback log",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "folder",
+      "uuid": "f57def1a-62dc-4c08-92e1-3ad04b73efc2"
+    },
+    {
+      "type": "folder",
+      "uuid": "12e8b792-b076-457e-9dc3-0fe7935f6fde"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [
+    {
+      "uuid": "828b84c0-fc04-448e-8580-6c16f2e424de",
+      "id": "workflowRuns",
+      "name": "workflowRuns",
+      "documentation": "Tracks dispatched workflow runs keyed by run_id UUID. Special key 'pendingRunId' holds the latest generated run_id during setData chaining.",
+      "value": "{}"
+    },
+    {
+      "uuid": "30d1f8f5-4179-4c39-b68e-6d6c88ebf994",
+      "id": "callbackLog",
+      "name": "callbackLog",
+      "documentation": "Append-only log of received build-complete callbacks. Inspect via GET /callback.",
+      "value": "[]"
+    },
+    {
+      "uuid": "f374091f-6517-4ac8-8a56-26f674d3789a",
+      "id": "appSettings",
+      "name": "appSettings",
+      "documentation": "Flat production constants/events keyed by AppId_Constants and AppId_ScheduledEvents.",
+      "value": "{\"EnterpriseD_Constants\":[{\"Name\":\"EnterpriseD.EnableShieldMonitoring\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.EnableHullIntegrityAlerts\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.MaximumWarpFactor\",\"DataType\":\"Integer\",\"Value\":\"9\",\"DeployedValue\":\"9\"},{\"Name\":\"EnterpriseD.MaintenanceWindowStart\",\"DataType\":\"DateTime\",\"Value\":\"2024-01-15T00:00:00\",\"DeployedValue\":\"2024-01-15T00:00:00\"},{\"Name\":\"EnterpriseD.ShipRegistryUrl\",\"DataType\":\"_String\",\"Value\":\"https://registry.starfleet.com\",\"DeployedValue\":\"https://registry.starfleet.com\"},{\"Name\":\"EnterpriseD.CrewManifestSyncInterval\",\"DataType\":\"Integer\",\"Value\":\"15\",\"DeployedValue\":\"15\"},{\"Name\":\"EnterpriseD.EnableCombatReadiness\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.CommanderPINLength\",\"DataType\":\"Integer\",\"Value\":\"8\",\"DeployedValue\":\"8\"},{\"Name\":\"EnterpriseD.StarbaseSyncUrl\",\"DataType\":\"_String\",\"Value\":\"https://starbase1.starfleet.com\",\"DeployedValue\":\"https://starbase1.starfleet.com\"},{\"Name\":\"EnterpriseD.EnableEmergencyBroadcast\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.AlertLevelThreshold\",\"DataType\":\"Integer\",\"Value\":\"2\",\"DeployedValue\":\"2\"},{\"Name\":\"EnterpriseD.HullBreachThreshold\",\"DataType\":\"Integer\",\"Value\":\"60\",\"DeployedValue\":\"60\"},{\"Name\":\"EnterpriseD.VoiceCommandTimeout\",\"DataType\":\"Integer\",\"Value\":\"15\",\"DeployedValue\":\"15\"},{\"Name\":\"EnterpriseD.EnableDiplomacyMode\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.LastCalibrationDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-03-10T08:00:00\",\"DeployedValue\":\"2024-03-10T08:00:00\"},{\"Name\":\"EnterpriseD.CommunicationsFrequency\",\"DataType\":\"_String\",\"Value\":\"432.14\",\"DeployedValue\":\"432.14\"},{\"Name\":\"EnterpriseD.SensorArrayMode\",\"DataType\":\"_String\",\"Value\":\"combat\",\"DeployedValue\":\"combat\"},{\"Name\":\"EnterpriseD.EnableRemoteAccess\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"EnterpriseD.MaxConcurrentSessions\",\"DataType\":\"Integer\",\"Value\":\"25\",\"DeployedValue\":\"25\"},{\"Name\":\"EnterpriseD.LogRetentionDays\",\"DataType\":\"Integer\",\"Value\":\"90\",\"DeployedValue\":\"90\"},{\"Name\":\"EnterpriseD.FirstContactProtocolDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-03-01T00:00:00\",\"DeployedValue\":\"2024-03-01T00:00:00\"},{\"Name\":\"EnterpriseD.SystemHeartbeatInterval\",\"DataType\":\"Integer\",\"Value\":\"10\",\"DeployedValue\":\"10\"}],\"EnterpriseD_ScheduledEvents\":[{\"Name\":\"EnterpriseD.DailySystemDiagnostics\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"EnterpriseD.WeeklyManifestSync\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"}],\"HolodeckSuite_Constants\":[{\"Name\":\"HolodeckSuite.MaxConcurrentPrograms\",\"DataType\":\"Integer\",\"Value\":\"20\",\"DeployedValue\":\"20\"},{\"Name\":\"HolodeckSuite.DefaultResolutionDpi\",\"DataType\":\"Integer\",\"Value\":\"300\",\"DeployedValue\":\"300\"},{\"Name\":\"HolodeckSuite.EnableSafetyInterlock\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"HolodeckSuite.SafetyThreshold\",\"DataType\":\"Integer\",\"Value\":\"95\",\"DeployedValue\":\"95\"},{\"Name\":\"HolodeckSuite.ProgramLibraryUrl\",\"DataType\":\"_String\",\"Value\":\"https://holodeck-lib.starfleet.com\",\"DeployedValue\":\"https://holodeck-lib.starfleet.com\"},{\"Name\":\"HolodeckSuite.EnableMoriartyProtocol\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"HolodeckSuite.SimulationFPS\",\"DataType\":\"Integer\",\"Value\":\"60\",\"DeployedValue\":\"60\"},{\"Name\":\"HolodeckSuite.MaxParticipants\",\"DataType\":\"Integer\",\"Value\":\"50\",\"DeployedValue\":\"50\"},{\"Name\":\"HolodeckSuite.LastProgramUpdate\",\"DataType\":\"DateTime\",\"Value\":\"2024-03-20T10:00:00\",\"DeployedValue\":\"2024-03-20T10:00:00\"},{\"Name\":\"HolodeckSuite.EnableRemoteAccess\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"HolodeckSuite.HoloGridFrequency\",\"DataType\":\"_String\",\"Value\":\"161.5\",\"DeployedValue\":\"161.5\"},{\"Name\":\"HolodeckSuite.NeuralInterfaceMode\",\"DataType\":\"_String\",\"Value\":\"full\",\"DeployedValue\":\"full\"},{\"Name\":\"HolodeckSuite.EnableDiagnosticsOverlay\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"HolodeckSuite.MaxSessionDurationMinutes\",\"DataType\":\"Integer\",\"Value\":\"480\",\"DeployedValue\":\"480\"},{\"Name\":\"HolodeckSuite.ContentLibraryVersion\",\"DataType\":\"_String\",\"Value\":\"2.1.0\",\"DeployedValue\":\"2.1.0\"},{\"Name\":\"HolodeckSuite.EmergencyExitDelay\",\"DataType\":\"Integer\",\"Value\":\"5\",\"DeployedValue\":\"5\"},{\"Name\":\"HolodeckSuite.ProgramExpiryDate\",\"DataType\":\"DateTime\",\"Value\":\"2026-01-01T00:00:00\",\"DeployedValue\":\"2026-01-01T00:00:00\"},{\"Name\":\"HolodeckSuite.EnableAudioProcessing\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"HolodeckSuite.RenderQuality\",\"DataType\":\"Integer\",\"Value\":\"100\",\"DeployedValue\":\"100\"},{\"Name\":\"HolodeckSuite.HolographicBufferSize\",\"DataType\":\"Integer\",\"Value\":\"4096\",\"DeployedValue\":\"4096\"}],\"HolodeckSuite_ScheduledEvents\":[{\"Name\":\"HolodeckSuite.NightlyProgramCleanup\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"HolodeckSuite.SafetySystemCheck\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"}],\"ReplicatorSystem_Constants\":[{\"Name\":\"ReplicatorSystem.MaxMaterialQueue\",\"DataType\":\"Integer\",\"Value\":\"50\",\"DeployedValue\":\"50\"},{\"Name\":\"ReplicatorSystem.EnableMaterialRecycling\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"ReplicatorSystem.RecyclingEfficiency\",\"DataType\":\"Integer\",\"Value\":\"90\",\"DeployedValue\":\"90\"},{\"Name\":\"ReplicatorSystem.MaterialPatternLibraryUrl\",\"DataType\":\"_String\",\"Value\":\"https://patterns.starfleet.com\",\"DeployedValue\":\"https://patterns.starfleet.com\"},{\"Name\":\"ReplicatorSystem.NutritionalDatabaseVersion\",\"DataType\":\"_String\",\"Value\":\"4.0.0\",\"DeployedValue\":\"4.0.0\"},{\"Name\":\"ReplicatorSystem.EnableAdvancedAlloys\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"ReplicatorSystem.MaxPowerDraw\",\"DataType\":\"Integer\",\"Value\":\"10000\",\"DeployedValue\":\"10000\"},{\"Name\":\"ReplicatorSystem.EnergyConversionRate\",\"DataType\":\"Integer\",\"Value\":\"95\",\"DeployedValue\":\"95\"},{\"Name\":\"ReplicatorSystem.PatternExpiry\",\"DataType\":\"DateTime\",\"Value\":\"2026-01-01T00:00:00\",\"DeployedValue\":\"2026-01-01T00:00:00\"},{\"Name\":\"ReplicatorSystem.EnableToxinFilter\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"ReplicatorSystem.ToxinThresholdPpm\",\"DataType\":\"Integer\",\"Value\":\"10\",\"DeployedValue\":\"10\"},{\"Name\":\"ReplicatorSystem.MaintenanceScheduleDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-04-01T02:00:00\",\"DeployedValue\":\"2024-04-01T02:00:00\"},{\"Name\":\"ReplicatorSystem.FoodGradeMode\",\"DataType\":\"_String\",\"Value\":\"premium\",\"DeployedValue\":\"premium\"},{\"Name\":\"ReplicatorSystem.EnableCustomPatterns\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"ReplicatorSystem.ReplicationLogLevel\",\"DataType\":\"_String\",\"Value\":\"warn\",\"DeployedValue\":\"warn\"},{\"Name\":\"ReplicatorSystem.PatternCacheTTL\",\"DataType\":\"Integer\",\"Value\":\"900\",\"DeployedValue\":\"900\"},{\"Name\":\"ReplicatorSystem.EnableBiogradeProgramming\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"ReplicatorSystem.LastPatternSyncDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-03-15T12:00:00\",\"DeployedValue\":\"2024-03-15T12:00:00\"}],\"ReplicatorSystem_ScheduledEvents\":[{\"Name\":\"ReplicatorSystem.DailyPatternSync\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"ReplicatorSystem.WeeklyCapacityReport\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"}],\"TransporterOps_Constants\":[{\"Name\":\"TransporterOps.MaxConcurrentBeamouts\",\"DataType\":\"Integer\",\"Value\":\"6\",\"DeployedValue\":\"6\"},{\"Name\":\"TransporterOps.EnableHeisenbergCompensators\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"TransporterOps.PatternBufferCapacity\",\"DataType\":\"Integer\",\"Value\":\"30\",\"DeployedValue\":\"30\"},{\"Name\":\"TransporterOps.CoordinatePrecision\",\"DataType\":\"Integer\",\"Value\":\"8\",\"DeployedValue\":\"8\"},{\"Name\":\"TransporterOps.TransporterGatewayUrl\",\"DataType\":\"_String\",\"Value\":\"https://transporter-gw.starfleet.com\",\"DeployedValue\":\"https://transporter-gw.starfleet.com\"},{\"Name\":\"TransporterOps.EnableEmergencyBeam\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"TransporterOps.LockOnTimeout\",\"DataType\":\"Integer\",\"Value\":\"10\",\"DeployedValue\":\"10\"},{\"Name\":\"TransporterOps.LastCalibrationDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-03-20T08:00:00\",\"DeployedValue\":\"2024-03-20T08:00:00\"},{\"Name\":\"TransporterOps.DematerializationRate\",\"DataType\":\"Integer\",\"Value\":\"100\",\"DeployedValue\":\"100\"},{\"Name\":\"TransporterOps.RematerializationRate\",\"DataType\":\"Integer\",\"Value\":\"100\",\"DeployedValue\":\"100\"},{\"Name\":\"TransporterOps.EnableAtmosphericTransport\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"TransporterOps.ShieldPenetrationMode\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"TransporterOps.SignalBoosterUrl\",\"DataType\":\"_String\",\"Value\":\"https://booster1.starfleet.com\",\"DeployedValue\":\"https://booster1.starfleet.com\"},{\"Name\":\"TransporterOps.QueueTimeout\",\"DataType\":\"Integer\",\"Value\":\"30\",\"DeployedValue\":\"30\"},{\"Name\":\"TransporterOps.MaxBeamRange\",\"DataType\":\"Integer\",\"Value\":\"40000\",\"DeployedValue\":\"40000\"},{\"Name\":\"TransporterOps.EnableTwoPadBeaming\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"TransporterOps.PatternCacheExpiry\",\"DataType\":\"DateTime\",\"Value\":\"2024-12-01T00:00:00\",\"DeployedValue\":\"2024-12-01T00:00:00\"},{\"Name\":\"TransporterOps.SafetyCheckMode\",\"DataType\":\"_String\",\"Value\":\"full\",\"DeployedValue\":\"full\"},{\"Name\":\"TransporterOps.LogLevel\",\"DataType\":\"_String\",\"Value\":\"error\",\"DeployedValue\":\"error\"}],\"TransporterOps_ScheduledEvents\":[{\"Name\":\"TransporterOps.DailyPatternBufferFlush\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"TransporterOps.WeeklyCalibrationReminder\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"}],\"WarpCoreMonitor_Constants\":[{\"Name\":\"WarpCoreMonitor.CoreTemperatureThreshold\",\"DataType\":\"Integer\",\"Value\":\"4000\",\"DeployedValue\":\"4000\"},{\"Name\":\"WarpCoreMonitor.EnableAntimatterAlert\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.AntimatterContainmentLevel\",\"DataType\":\"Integer\",\"Value\":\"95\",\"DeployedValue\":\"95\"},{\"Name\":\"WarpCoreMonitor.WarpFieldCoherenceMin\",\"DataType\":\"Integer\",\"Value\":\"92\",\"DeployedValue\":\"92\"},{\"Name\":\"WarpCoreMonitor.PlasmaFlowRate\",\"DataType\":\"Integer\",\"Value\":\"1000\",\"DeployedValue\":\"1000\"},{\"Name\":\"WarpCoreMonitor.MonitoringApiUrl\",\"DataType\":\"_String\",\"Value\":\"https://warp-mon.starfleet.com\",\"DeployedValue\":\"https://warp-mon.starfleet.com\"},{\"Name\":\"WarpCoreMonitor.EnableAutoShutdown\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.ShutdownThreshold\",\"DataType\":\"Integer\",\"Value\":\"5\",\"DeployedValue\":\"5\"},{\"Name\":\"WarpCoreMonitor.LastInspectionDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-03-10T06:00:00\",\"DeployedValue\":\"2024-03-10T06:00:00\"},{\"Name\":\"WarpCoreMonitor.DilithiumCrystalUrl\",\"DataType\":\"_String\",\"Value\":\"https://dilithium.starfleet.com\",\"DeployedValue\":\"https://dilithium.starfleet.com\"},{\"Name\":\"WarpCoreMonitor.CrystalReplaceDate\",\"DataType\":\"DateTime\",\"Value\":\"2026-01-01T00:00:00\",\"DeployedValue\":\"2026-01-01T00:00:00\"},{\"Name\":\"WarpCoreMonitor.EnableRemoteDiagnostics\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"WarpCoreMonitor.DiagnosticInterval\",\"DataType\":\"Integer\",\"Value\":\"10\",\"DeployedValue\":\"10\"},{\"Name\":\"WarpCoreMonitor.MaxWarpStress\",\"DataType\":\"Integer\",\"Value\":\"90\",\"DeployedValue\":\"90\"},{\"Name\":\"WarpCoreMonitor.EjectionProtocolEnabled\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.EjectionThreshold\",\"DataType\":\"Integer\",\"Value\":\"8\",\"DeployedValue\":\"8\"},{\"Name\":\"WarpCoreMonitor.SingularityFieldStrength\",\"DataType\":\"Integer\",\"Value\":\"500\",\"DeployedValue\":\"500\"},{\"Name\":\"WarpCoreMonitor.FieldCoherenceMode\",\"DataType\":\"_String\",\"Value\":\"combat\",\"DeployedValue\":\"combat\"},{\"Name\":\"WarpCoreMonitor.EnableMagneticConfinement\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.ConfinementFieldFrequency\",\"DataType\":\"_String\",\"Value\":\"5200.0\",\"DeployedValue\":\"5200.0\"},{\"Name\":\"WarpCoreMonitor.NeutralizerCooldown\",\"DataType\":\"Integer\",\"Value\":\"60\",\"DeployedValue\":\"60\"},{\"Name\":\"WarpCoreMonitor.PlasmaCouplingDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-03-01T00:00:00\",\"DeployedValue\":\"2024-03-01T00:00:00\"},{\"Name\":\"WarpCoreMonitor.EnableDeuteriumMonitor\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"WarpCoreMonitor.DeuteriumLowThreshold\",\"DataType\":\"Integer\",\"Value\":\"10\",\"DeployedValue\":\"10\"},{\"Name\":\"WarpCoreMonitor.AlertNotificationUrl\",\"DataType\":\"_String\",\"Value\":\"https://alerts.starfleet.com\",\"DeployedValue\":\"https://alerts.starfleet.com\"}],\"WarpCoreMonitor_ScheduledEvents\":[{\"Name\":\"WarpCoreMonitor.HourlyCoreStatusReport\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"WarpCoreMonitor.DailyDilithiumCheck\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"},{\"Name\":\"WarpCoreMonitor.WeeklyEjectionSystemTest\",\"DeployedValue\":\"Enabled\",\"Value\":\"Enabled\"}]}"
+    }
+  ],
+  "callbacks": [
+    {
+      "uuid": "7f13d649-b15e-4038-ad93-c0c09e3b7ba3",
+      "id": "buildCompleteCallback",
+      "name": "Build Complete Callback",
+      "documentation": "Fires after the dispatch latency (default 30s). POSTs the build result to the URL in the X-Callback-Url request header, or falls back to http://localhost:3004/callback. ProcessID is taken from inputs.mendix_process_id in the original request body so the receiving service can correlate the response.",
+      "method": "post",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "X-Build-Source",
+          "value": "mockoon-git-api"
+        }
+      ],
+      "body": "{\"RuntimeVersion\":\"11.6.2\",\"ProjectID\":\"{{body 'inputs.mendix_project_id'}}\",\"ProjectName\":\"{{body 'inputs.mendix_app_id'}}\",\"ModelVersion\":\"{{body 'inputs.mendix_ref'}}\",\"CommitSha\":\"{{faker 'string.uuid'}}\",\"PackageID\":\"{{faker 'string.uuid'}}\",\"ProcessID\":\"{{body 'inputs.mendix_process_id'}}\",\"Constants\":[{\"Name\":\"EnterpriseD.EnableShieldMonitoring\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"EnterpriseD.EnableHullIntegrityAlerts\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"EnterpriseD.MaximumWarpFactor\",\"DataType\":\"Integer\",\"Value\":\"5\",\"DeployedValue\":\"5\"},{\"Name\":\"EnterpriseD.MaintenanceWindowStart\",\"DataType\":\"DateTime\",\"Value\":\"2024-01-15T02:00:00\",\"DeployedValue\":\"2024-01-15T02:00:00\"},{\"Name\":\"EnterpriseD.ShipRegistryUrl\",\"DataType\":\"_String\",\"Value\":\"https://registry-test.starfleet.com\",\"DeployedValue\":\"https://registry-test.starfleet.com\"},{\"Name\":\"EnterpriseD.CrewManifestSyncInterval\",\"DataType\":\"Integer\",\"Value\":\"60\",\"DeployedValue\":\"60\"},{\"Name\":\"EnterpriseD.EnableCombatReadiness\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"EnterpriseD.CommanderPINLength\",\"DataType\":\"Integer\",\"Value\":\"4\",\"DeployedValue\":\"4\"},{\"Name\":\"EnterpriseD.StarbaseSyncUrl\",\"DataType\":\"_String\",\"Value\":\"https://starbase1-test.starfleet.com\",\"DeployedValue\":\"https://starbase1-test.starfleet.com\"},{\"Name\":\"EnterpriseD.EnableEmergencyBroadcast\",\"DataType\":\"_Boolean\",\"Value\":\"false\",\"DeployedValue\":\"false\"},{\"Name\":\"EnterpriseD.AlertLevelThreshold\",\"DataType\":\"Integer\",\"Value\":\"5\",\"DeployedValue\":\"5\"},{\"Name\":\"EnterpriseD.HullBreachThreshold\",\"DataType\":\"Integer\",\"Value\":\"80\",\"DeployedValue\":\"80\"},{\"Name\":\"EnterpriseD.VoiceCommandTimeout\",\"DataType\":\"Integer\",\"Value\":\"30\",\"DeployedValue\":\"30\"},{\"Name\":\"EnterpriseD.EnableDiplomacyMode\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.LastCalibrationDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-01-10T08:00:00\",\"DeployedValue\":\"2024-01-10T08:00:00\"},{\"Name\":\"EnterpriseD.CommunicationsFrequency\",\"DataType\":\"_String\",\"Value\":\"372.14\",\"DeployedValue\":\"372.14\"},{\"Name\":\"EnterpriseD.SensorArrayMode\",\"DataType\":\"_String\",\"Value\":\"diagnostic\",\"DeployedValue\":\"diagnostic\"},{\"Name\":\"EnterpriseD.EnableRemoteAccess\",\"DataType\":\"_Boolean\",\"Value\":\"true\",\"DeployedValue\":\"true\"},{\"Name\":\"EnterpriseD.MaxConcurrentSessions\",\"DataType\":\"Integer\",\"Value\":\"100\",\"DeployedValue\":\"100\"},{\"Name\":\"EnterpriseD.LogRetentionDays\",\"DataType\":\"Integer\",\"Value\":\"7\",\"DeployedValue\":\"7\"},{\"Name\":\"EnterpriseD.FirstContactProtocolDate\",\"DataType\":\"DateTime\",\"Value\":\"2024-01-01T00:00:00\",\"DeployedValue\":\"2024-01-01T00:00:00\"},{\"Name\":\"EnterpriseD.SystemHeartbeatInterval\",\"DataType\":\"Integer\",\"Value\":\"60\",\"DeployedValue\":\"60\"}],\"CustomSettings\":[],\"ScheduledEvents\":[{\"Name\":\"EnterpriseD.DailySystemDiagnostics\",\"DeployedValue\":\"Disabled\",\"Value\":\"Disabled\"}",
+      "bodyType": "INLINE",
+      "filePath": "",
+      "sendFileAsBody": false,
+      "uri": "http://localhost:3004/callback",
+      "databucketID": "appSettings"
+    }
+  ]
+}

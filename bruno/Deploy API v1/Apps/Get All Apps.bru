@@ -1,0 +1,21 @@
+meta {
+  name: Get All Apps
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{deploy_base_url}}/api/1/apps
+  body: none
+  auth: none
+}
+
+headers {
+  Mendix-Username: {{mendix_username}}
+  Mendix-ApiKey: {{mendix_apikey}}
+  Content-Type: application/json
+}
+
+docs {
+  Retrieve all apps accessible to the authenticated user.
+}

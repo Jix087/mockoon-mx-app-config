@@ -1,0 +1,21 @@
+meta {
+  name: Get Repository Info
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{repository_base_url}}/v1/repositories/{{app_id}}/info
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: MxToken {{mendix_pat}}
+  Content-Type: application/json
+}
+
+docs {
+  Retrieve repository information (type: svn or git, url) for a Mendix app.
+  Requires PAT with scope: mx:modelrepository:repo:read
+}

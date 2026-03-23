@@ -1,0 +1,20 @@
+meta {
+  name: Get List Workflows
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{git_base_url}}/repos/{{git_owner}}/{{git_repo}}/actions/workflows
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{git_token}}
+  Content-Type: application/json
+}
+
+docs {
+  List all workflows configured for the repository.
+}

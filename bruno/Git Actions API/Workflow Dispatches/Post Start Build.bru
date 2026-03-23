@@ -1,0 +1,45 @@
+meta {
+  name: Post Start Build
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{git_base_url}}/repos/{{git_owner}}/{{git_repo}}/actions/workflows/{{git_workflow_id}}/dispatches
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{git_token}}
+  Content-Type: application/json
+  X-Callback-Url: {{git_callback_url}}
+}
+
+body:json {
+  {
+    "ref": "main",
+    "inputs": {
+      "mendix_project_id": "917e6f77-acb1-4bda-8b9d-f3a792e05531",
+      "mendix_app_id": "{{app_id}}",
+      "mendix_ref": "e49ce3c8dceca201bb90e3e3a82abae76428f849",
+      "mendix_process_id": "1234",
+      "version": "1.2.3"
+    }
+  }
+}
+
+docs {
+  Trigger a Mendix build workflow dispatch.
+
+  Returns 204 No Content immediately.
+  After 30 seconds the mock fires a POST callback to X-Callback-Url
+  (defaults to http://localhost:3004/callback if header is omitted).
+
+  The callback body contains:
+    - ProjectID  — from inputs.mendix_project_id
+    - ModelVersion — from inputs.mendix_ref
+    - ProcessID  — from inputs.mendix_process_id
+    - CommitSha and PackageID — generated UUIDs
+    - Constants and ScheduledEvents arrays
+}

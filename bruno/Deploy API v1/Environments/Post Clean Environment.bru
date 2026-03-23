@@ -1,0 +1,22 @@
+meta {
+  name: Post Clean Environment
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{deploy_base_url}}/api/1/apps/{{app_id}}/environments/{{mode}}/clean
+  body: json
+  auth: none
+}
+
+headers {
+  Mendix-Username: {{mendix_username}}
+  Mendix-ApiKey: {{mendix_apikey}}
+  Content-Type: application/json
+}
+
+body:json {
+  {}
+}
+

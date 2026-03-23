@@ -1,0 +1,22 @@
+meta {
+  name: Get Environment Package with URL
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{deploy_base_url}}/api/1/apps/{{app_id}}/environments/{{mode}}/package
+  body: none
+  auth: none
+}
+
+params:query {
+  url: true
+}
+
+headers {
+  Mendix-Username: {{mendix_username}}
+  Mendix-ApiKey: {{mendix_apikey}}
+  Content-Type: application/json
+}
+

@@ -1,0 +1,28 @@
+meta {
+  name: Post Create Free App
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{deploy_base_url}}/api/1/apps
+  body: json
+  auth: none
+}
+
+headers {
+  Mendix-Username: {{mendix_username}}
+  Mendix-ApiKey: {{mendix_apikey}}
+  Content-Type: application/json
+}
+
+body:json {
+{
+  "ProjectId": "my-project-id",
+  "AppName": "My New App"
+}
+}
+
+docs {
+  Create a Free App environment.
+}

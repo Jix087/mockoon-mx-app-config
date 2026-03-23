@@ -1,0 +1,25 @@
+meta {
+  name: Get Start Job Status
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{deploy_base_url}}/api/1/apps/{{app_id}}/environments/{{mode}}/start/:jobId
+  body: none
+  auth: none
+}
+
+params:path {
+  jobId: cc776cca-032a-4a77-9ea2-45d49650ca1c
+}
+
+headers {
+  Mendix-Username: {{mendix_username}}
+  Mendix-ApiKey: {{mendix_apikey}}
+  Content-Type: application/json
+}
+
+docs {
+  Poll job status. Returns Starting (first 5 calls per JobId) then Started.
+}

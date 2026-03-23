@@ -1,0 +1,21 @@
+meta {
+  name: Get Run by ID
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{git_base_url}}/repos/{{git_owner}}/{{git_repo}}/actions/runs/{{git_run_id}}
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{git_token}}
+  Content-Type: application/json
+}
+
+docs {
+  Get a specific workflow run by its run_id UUID.
+  Copy the run_id from the workflowRuns bucket after triggering a dispatch.
+}

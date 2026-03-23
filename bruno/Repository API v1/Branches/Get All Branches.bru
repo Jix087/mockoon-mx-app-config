@@ -1,0 +1,26 @@
+meta {
+  name: Get All Branches
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{repository_base_url}}/v1/repositories/{{app_id}}/branches
+  body: none
+  auth: none
+}
+
+params:query {
+  ~limit: 20
+  ~cursor:
+}
+
+headers {
+  Authorization: MxToken {{mendix_pat}}
+  Content-Type: application/json
+}
+
+docs {
+  Retrieve a paginated list of branches for a repository.
+  Optional query params: limit (default 20, max 100), cursor (pagination token).
+}
