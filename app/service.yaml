@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mockoon
+  namespace: mockoon
+spec:
+  type: ClusterIP
+  selector:
+    app: mockoon
+  ports:
+    - name: mendix-deploy-api
+      port: 3001
+      targetPort: 3001
+    - name: mendix-build-api
+      port: 3002
+      targetPort: 3002
+    - name: mendix-repository-api
+      port: 3003
+      targetPort: 3003
+    - name: mendix-git-api
+      port: 3004
+      targetPort: 3004

@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mockoon
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:Jix087/mockoon-deploy-api.git
+    targetRevision: HEAD
+    path: app
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: mockoon
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+
+    automated:
+      selfHeal: true
+      prune: true
