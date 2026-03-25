@@ -25,14 +25,14 @@ spec:
           image: docker.io/mockoon/cli:latest
           args:
             - --data
-            - /config/mendix-deploy-api.json
+            - /tmp/mendix-deploy-api.json
             - --port
             - "3001"
           ports:
             - containerPort: 3001
           volumeMounts:
             - name: mocks
-              mountPath: /config/mendix-deploy-api.json
+              mountPath: /tmp/mendix-deploy-api.json
               subPath: mendix-deploy-api.json
           readinessProbe:
             httpGet:
@@ -45,14 +45,14 @@ spec:
           image: docker.io/mockoon/cli:latest
           args:
             - --data
-            - /config/mendix-build-api.json
+            - /tmp/mendix-build-api.json
             - --port
             - "3002"
           ports:
             - containerPort: 3002
           volumeMounts:
             - name: mocks
-              mountPath: /config/mendix-build-api.json
+              mountPath: /tmp/mendix-build-api.json
               subPath: mendix-build-api.json
           readinessProbe:
             httpGet:
@@ -65,14 +65,14 @@ spec:
           image: docker.io/mockoon/cli:latest
           args:
             - --data
-            - /config/mendix-repository-api.json
+            - /tmp/mendix-repository-api.json
             - --port
             - "3003"
           ports:
             - containerPort: 3003
           volumeMounts:
             - name: mocks
-              mountPath: /config/mendix-repository-api.json
+              mountPath: /tmp/mendix-repository-api.json
               subPath: mendix-repository-api.json
           readinessProbe:
             httpGet:
@@ -85,14 +85,14 @@ spec:
           image: docker.io/mockoon/cli:latest
           args:
             - --data
-            - /config/mendix-git-api.json
+            - /tmp/mendix-git-api.json
             - --port
             - "3004"
           ports:
             - containerPort: 3004
           volumeMounts:
             - name: mocks
-              mountPath: /config/mendix-git-api.json
+              mountPath: /tmp/mendix-git-api.json
               subPath: mendix-git-api.json
           readinessProbe:
             httpGet:
