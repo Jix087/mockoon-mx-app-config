@@ -13,26 +13,32 @@ spec:
       labels:
         app: mockoon
       annotations:
-        # Recomputed by scripts/generate-configmap.sh; change triggers rolling restart
         checksum/configmap: "992cc5210e9627900da027f650468d847a26961dcd445192aa46a2e817edea8d"
     spec:
+      initContainers:
+        - name: copy-mocks
+          image: busybox:latest
+          command: [sh, -c, "cp /cm/*.json /data/"]
+          volumeMounts:
+            - name: mocks-cm
+              mountPath: /cm
+            - name: mocks-data
+              mountPath: /data
       volumes:
-        - name: mocks
+        - name: mocks-cm
           configMap:
             name: mockoon-mocks
+        - name: mocks-data
+          emptyDir: {}
       containers:
         - name: mendix-deploy-api
           image: docker.io/mockoon/cli:latest
-          args:
-            - --data
-            - /tmp/mendix-deploy-api.json
-            - --port
-            - "3001"
+          args: ["--data", "/data/mendix-deploy-api.json", "--port", "3001"]
           ports:
             - containerPort: 3001
           volumeMounts:
-            - name: mocks
-              mountPath: /tmp/mendix-deploy-api.json
+            - name: mocks-data
+              mountPath: /data/mendix-deploy-api.json
               subPath: mendix-deploy-api.json
           readinessProbe:
             httpGet:
@@ -43,16 +49,12 @@ spec:
 
         - name: mendix-build-api
           image: docker.io/mockoon/cli:latest
-          args:
-            - --data
-            - /tmp/mendix-build-api.json
-            - --port
-            - "3002"
+          args: ["--data", "/data/mendix-build-api.json", "--port", "3002"]
           ports:
             - containerPort: 3002
           volumeMounts:
-            - name: mocks
-              mountPath: /tmp/mendix-build-api.json
+            - name: mocks-data
+              mountPath: /data/mendix-build-api.json
               subPath: mendix-build-api.json
           readinessProbe:
             httpGet:
@@ -63,36 +65,28 @@ spec:
 
         - name: mendix-repository-api
           image: docker.io/mockoon/cli:latest
-          args:
-            - --data
-            - /tmp/mendix-repository-api.json
-            - --port
-            - "3003"
+          args: ["--data", "/data/mendix-repository-api.json", "--port", "3003"]
           ports:
             - containerPort: 3003
           volumeMounts:
-            - name: mocks
-              mountPath: /tmp/mendix-repository-api.json
+            - name: mocks-data
+              mountPath: /data/mendix-repository-api.json
               subPath: mendix-repository-api.json
           readinessProbe:
             httpGet:
               path: /
-              port: 3002
+              port: 3003
             initialDelaySeconds: 3
             periodSeconds: 10
 
         - name: mendix-git-api
           image: docker.io/mockoon/cli:latest
-          args:
-            - --data
-            - /tmp/mendix-git-api.json
-            - --port
-            - "3004"
+          args: ["--data", "/data/mendix-git-api.json", "--port", "3004"]
           ports:
             - containerPort: 3004
           volumeMounts:
-            - name: mocks
-              mountPath: /tmp/mendix-git-api.json
+            - name: mocks-data
+              mountPath: /data/mendix-git-api.json
               subPath: mendix-git-api.json
           readinessProbe:
             httpGet:
