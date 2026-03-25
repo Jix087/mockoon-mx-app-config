@@ -32,7 +32,8 @@ spec:
             - containerPort: 3001
           volumeMounts:
             - name: mocks
-              mountPath: /config
+              mountPath: /config/mendix-deploy-api.json
+              subPath: mendix-deploy-api.json
           readinessProbe:
             httpGet:
               path: /
@@ -51,7 +52,8 @@ spec:
             - containerPort: 3002
           volumeMounts:
             - name: mocks
-              mountPath: /config
+              mountPath: /config/mendix-build-api.json
+              subPath: mendix-build-api.json
           readinessProbe:
             httpGet:
               path: /
@@ -70,11 +72,12 @@ spec:
             - containerPort: 3003
           volumeMounts:
             - name: mocks
-              mountPath: /config
+              mountPath: /config/mendix-repository-api.json
+              subPath: mendix-repository-api.json
           readinessProbe:
             httpGet:
               path: /
-              port: 3003
+              port: 3002
             initialDelaySeconds: 3
             periodSeconds: 10
 
@@ -89,7 +92,8 @@ spec:
             - containerPort: 3004
           volumeMounts:
             - name: mocks
-              mountPath: /config
+              mountPath: /config/mendix-git-api.json
+              subPath: mendix-git-api.json
           readinessProbe:
             httpGet:
               path: /
