@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: git@github.com:Jix087/mockoon-deploy-api.git
+    repoURL: git@github.com:Jix087/mockoon-mx-app-config.git
     targetRevision: HEAD
     path: app
     directory:
