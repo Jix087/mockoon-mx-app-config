@@ -22,7 +22,7 @@ spec:
             name: mockoon-mocks
       containers:
         - name: mendix-deploy-api
-          image: docker.io/mockoon/mockoon-cli:latest
+          image: docker.io/mockoon/cli:latest
           args:
             - --data
             - /config/mendix-deploy-api.json
@@ -41,7 +41,7 @@ spec:
             periodSeconds: 10
 
         - name: mendix-build-api
-          image: docker.io/mockoon/mockoon-cli:latest
+          image: docker.io/mockoon/cli:latest
           args:
             - --data
             - /config/mendix-build-api.json
@@ -60,7 +60,7 @@ spec:
             periodSeconds: 10
 
         - name: mendix-repository-api
-          image: docker.io/mockoon/mockoon-cli:latest
+          image: docker.io/mockoon/cli:latest
           args:
             - --data
             - /config/mendix-repository-api.json
@@ -79,7 +79,7 @@ spec:
             periodSeconds: 10
 
         - name: mendix-git-api
-          image: docker.io/mockoon/mockoon-cli:latest
+          image: docker.io/mockoon/cli:latest
           args:
             - --data
             - /config/mendix-git-api.json
