@@ -15,21 +15,10 @@ spec:
       annotations:
         checksum/configmap: "992cc5210e9627900da027f650468d847a26961dcd445192aa46a2e817edea8d"
     spec:
-      initContainers:
-        - name: copy-mocks
-          image: busybox:latest
-          command: [sh, -c, "cp /cm/*.json /data/"]
-          volumeMounts:
-            - name: mocks-cm
-              mountPath: /cm
-            - name: mocks-data
-              mountPath: /data
       volumes:
-        - name: mocks-cm
+        - name: mocks
           configMap:
             name: mockoon-mocks
-        - name: mocks-data
-          emptyDir: {}
       containers:
         - name: mendix-deploy-api
           image: docker.io/mockoon/cli:latest
@@ -37,9 +26,8 @@ spec:
           ports:
             - containerPort: 3001
           volumeMounts:
-            - name: mocks-data
-              mountPath: /data/mendix-deploy-api.json
-              subPath: mendix-deploy-api.json
+            - name: mocks
+              mountPath: /data
           readinessProbe:
             httpGet:
               path: /
@@ -53,9 +41,8 @@ spec:
           ports:
             - containerPort: 3002
           volumeMounts:
-            - name: mocks-data
-              mountPath: /data/mendix-build-api.json
-              subPath: mendix-build-api.json
+            - name: mocks
+              mountPath: /data
           readinessProbe:
             httpGet:
               path: /
@@ -69,9 +56,8 @@ spec:
           ports:
             - containerPort: 3003
           volumeMounts:
-            - name: mocks-data
-              mountPath: /data/mendix-repository-api.json
-              subPath: mendix-repository-api.json
+            - name: mocks
+              mountPath: /data
           readinessProbe:
             httpGet:
               path: /
@@ -85,9 +71,8 @@ spec:
           ports:
             - containerPort: 3004
           volumeMounts:
-            - name: mocks-data
-              mountPath: /data/mendix-git-api.json
-              subPath: mendix-git-api.json
+            - name: mocks
+              mountPath: /data
           readinessProbe:
             httpGet:
               path: /
