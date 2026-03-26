@@ -19,12 +19,10 @@ CHECKSUM=$(find "$MOCKS_DIR" -name '*.json' | sort | xargs sha256sum | sha256sum
   echo "metadata:"
   echo "  name: mockoon-mocks"
   echo "  namespace: mockoon"
-  echo "data:"
+  echo "binaryData:"
   for f in $(find "$MOCKS_DIR" -name '*.json' | sort); do
     key="$(basename "$f")"
-    echo "  ${key}: |"
-    # Indent every line of the JSON with 4 spaces
-    sed 's/^/    /' "$f"
+    echo "  ${key}: $(base64 < "$f" | tr -d '\n')"
   done
 } > "$OUTPUT"
 
@@ -32,9 +30,8 @@ echo "Wrote $OUTPUT (checksum: ${CHECKSUM})"
 
 # Stamp the checksum into the Deployment pod-template annotation so ArgoCD
 # triggers a rolling restart whenever the ConfigMap content changes.
-DEPLOY="$REPO_ROOT/deployment.yaml"
+DEPLOY="$REPO_ROOT/app/deployment.yaml"
 if [[ -f "$DEPLOY" ]]; then
-  # Replace the value of the checksum/configmap annotation line in-place.
   sed -i.bak "s|checksum/configmap:.*|checksum/configmap: \"${CHECKSUM}\"|" "$DEPLOY"
   rm -f "$DEPLOY.bak"
   echo "Patched checksum/configmap annotation in $DEPLOY"
