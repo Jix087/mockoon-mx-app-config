@@ -424,7 +424,7 @@
     {
       "uuid": "f2ee5999-9fb0-47e0-9fe1-b403201103ed",
       "type": "http",
-      "documentation": "Poll the status of an environment start job. Returns 'Starting' for the first 5 calls per JobId, then 'Started'. State is tracked per JobId in the 'jobCounters' data bucket \u2014 parallel calls with different JobIds are fully isolated.",
+      "documentation": "Poll the status of an environment start job. Returns 'Starting' for the first 5 calls per JobId, then 'Started'. State is tracked per JobId in the 'jobCounters' data bucket — parallel calls with different JobIds are fully isolated.",
       "method": "get",
       "endpoint": "api/1/apps/:AppId/environments/:Mode/start/:JobId",
       "responses": [
@@ -433,7 +433,7 @@
           "body": "{{setData 'inc' 'jobCounters' (urlParam 'JobId') 1}}{{#if (lte (dataRaw 'jobCounters' (urlParam 'JobId')) 5)}}{\"Status\":\"Starting\"}{{else}}{\"Status\":\"Started\"}{{/if}}",
           "latency": 0,
           "statusCode": 200,
-          "label": "Starting (1-5 calls) then Started \u2014 per JobId",
+          "label": "Starting (1-5 calls) then Started — per JobId",
           "headers": [
             {
               "key": "Content-Type",

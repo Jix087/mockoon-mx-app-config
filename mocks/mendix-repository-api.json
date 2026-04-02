@@ -8,51 +8,51 @@
   "hostname": "",
   "folders": [
     {
-      "uuid": "rf000001-0000-0000-0000-000000000001",
+      "uuid": "a76613cc-7bec-42bc-9f44-97536a3ed82d",
       "name": "Repositories",
       "children": [
         {
           "type": "route",
-          "uuid": "r1000001-0000-0000-0000-000000000001"
+          "uuid": "32b24418-fbbc-4db9-af2e-6d9f9515be06"
         }
       ]
     },
     {
-      "uuid": "rf000002-0000-0000-0000-000000000002",
+      "uuid": "876298fd-aab9-47a8-ac8a-62453197f87d",
       "name": "Branches",
       "children": [
         {
           "type": "route",
-          "uuid": "r1000002-0000-0000-0000-000000000002"
+          "uuid": "1b60a4ae-fd0c-4328-bebe-cfa17aa50918"
         },
         {
           "type": "route",
-          "uuid": "r1000003-0000-0000-0000-000000000003"
+          "uuid": "bc280d1d-d929-4ac6-b2e5-03b571888c02"
         }
       ]
     },
     {
-      "uuid": "rf000003-0000-0000-0000-000000000003",
+      "uuid": "a9e98202-8bc0-4127-a206-34a0b8dedfb6",
       "name": "Commits",
       "children": [
         {
           "type": "route",
-          "uuid": "r1000004-0000-0000-0000-000000000004"
+          "uuid": "65cbee8c-b4b4-4e9a-8f29-9967f0fa4972"
         }
       ]
     }
   ],
   "routes": [
     {
-      "uuid": "r1000001-0000-0000-0000-000000000001",
+      "uuid": "32b24418-fbbc-4db9-af2e-6d9f9515be06",
       "type": "http",
       "documentation": "Retrieve repository info for a Mendix app (type: svn or git, url).",
       "method": "get",
       "endpoint": "v1/repositories/:appId/info",
       "responses": [
         {
-          "uuid": "r1r00001-0001-0000-0000-000000000001",
-          "body": "{{{stringify (find (dataRaw 'repositories') (object appId=(urlParam 'appId')))}}}",
+          "uuid": "842c906c-334f-4aaf-9d4a-1b0e54e8c3f1",
+          "body": "{\"appId\":\"1701d000-ncc1-701d-0000-000000000001\",\"type\":\"git\",\"url\":\"https://git.mendix.com/1701d000-ncc1-701d-0000-000000000001.git\"}",
           "latency": 0,
           "statusCode": 200,
           "label": "OK - Repository info",
@@ -75,7 +75,7 @@
           "callbacks": []
         },
         {
-          "uuid": "r1r00001-0002-0000-0000-000000000001",
+          "uuid": "2e474997-7fde-43cb-bccd-8777cfdfc243",
           "body": "{\"errorCode\":\"APP_NOT_FOUND\",\"errorMessage\":\"No repository found for app '{{urlParam 'appId'}}'\"}",
           "latency": 0,
           "statusCode": 404,
@@ -99,7 +99,7 @@
           "callbacks": []
         },
         {
-          "uuid": "r1r00001-0003-0000-0000-000000000001",
+          "uuid": "61aa7cc9-e495-4470-a45c-956f8a3d783e",
           "body": "{\"errorCode\":\"UNAUTHORIZED\",\"errorMessage\":\"Missing or invalid MxToken. Ensure the Authorization header is set to 'MxToken <your-PAT>'\"}",
           "latency": 0,
           "statusCode": 401,
@@ -136,15 +136,15 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "r1000002-0000-0000-0000-000000000002",
+      "uuid": "1b60a4ae-fd0c-4328-bebe-cfa17aa50918",
       "type": "http",
       "documentation": "Retrieve a paginated list of branches for a repository. Supports ?limit and ?cursor query params.",
       "method": "get",
       "endpoint": "v1/repositories/:appId/branches",
       "responses": [
         {
-          "uuid": "r1r00002-0001-0000-0000-000000000002",
-          "body": "{{setVar 'repo' (find (dataRaw 'repositories') (object appId=(urlParam 'appId')))}}\n{{setVar 'branches' (lookup @repo 'branches')}}\n{{setVar 'lim' (queryParam 'limit' '20')}}\n{\"items\": {{{stringify @branches}}}, \"cursors\": {\"first\": null, \"prev\": null, \"next\": null, \"last\": null}}",
+          "uuid": "ee91d0e5-f371-41e7-8d3e-2d97a6056f93",
+          "body": "{\"items\":[{\"name\":\"main\",\"latestCommit\":{\"id\":\"a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\",\"author\":{\"name\":\"Jean-Luc Picard\",\"email\":\"jean-luc.picard@starfleet.com\"},\"date\":\"2024-03-10T09:00:00Z\",\"message\":\"Release 2.5.0 - warp core stabilization\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-1234\"]}},{\"name\":\"feature/holodeck-diagnostics\",\"latestCommit\":{\"id\":\"b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1\",\"author\":{\"name\":\"Geordi La Forge\",\"email\":\"geordi.laforge@starfleet.com\"},\"date\":\"2024-03-12T14:30:00Z\",\"message\":\"WIP: holodeck safety interlock bypass diagnostics\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-1300\"]}},{\"name\":\"hotfix/shield-matrix\",\"latestCommit\":{\"id\":\"c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2\",\"author\":{\"name\":\"Worf\",\"email\":\"worf.son-of-mogh@starfleet.com\"},\"date\":\"2024-03-11T22:15:00Z\",\"message\":\"Emergency patch: shield matrix frequency calibration\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"BUG-567\"]}}],\"cursors\":{\"first\":null,\"prev\":null,\"next\":null,\"last\":null}}",
           "latency": 0,
           "statusCode": 200,
           "label": "OK - List of branches",
@@ -167,7 +167,7 @@
           "callbacks": []
         },
         {
-          "uuid": "r1r00002-0002-0000-0000-000000000002",
+          "uuid": "e42d43a3-9563-48f9-a34c-3947b4780785",
           "body": "{\"errorCode\":\"APP_NOT_FOUND\",\"errorMessage\":\"No repository found for app '{{urlParam 'appId'}}'\"}",
           "latency": 0,
           "statusCode": 404,
@@ -196,15 +196,15 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "r1000003-0000-0000-0000-000000000003",
+      "uuid": "bc280d1d-d929-4ac6-b2e5-03b571888c02",
       "type": "http",
       "documentation": "Retrieve info about a specific branch (URL-encode the branch name).",
       "method": "get",
       "endpoint": "v1/repositories/:appId/branches/:branchName",
       "responses": [
         {
-          "uuid": "r1r00003-0001-0000-0000-000000000003",
-          "body": "{{setVar 'repo' (find (dataRaw 'repositories') (object appId=(urlParam 'appId')))}}\n{{setVar 'branch' (find (lookup @repo 'branches') (object name=(urlParam 'branchName')))}}\n{{#if @branch}}{{{stringify @branch}}}{{else}}{\"errorCode\":\"BRANCH_NOT_FOUND\",\"errorMessage\":\"Branch '{{urlParam 'branchName'}}' not found\"}{{/if}}",
+          "uuid": "11573817-e20f-4725-9fc7-de08d86a3040",
+          "body": "{\"name\":\"main\",\"latestCommit\":{\"id\":\"a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\",\"author\":{\"name\":\"Jean-Luc Picard\",\"email\":\"jean-luc.picard@starfleet.com\"},\"date\":\"2024-03-10T09:00:00Z\",\"message\":\"Release 2.5.0 - warp core stabilization\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-1234\",\"US-1235\"]}}",
           "latency": 0,
           "statusCode": 200,
           "label": "OK - Branch info",
@@ -227,7 +227,7 @@
           "callbacks": []
         },
         {
-          "uuid": "r1r00003-0002-0000-0000-000000000003",
+          "uuid": "9a32806e-b1d8-4b0f-b355-905ff0fe6b5c",
           "body": "{\"errorCode\":\"BRANCH_NOT_FOUND\",\"errorMessage\":\"Branch '{{urlParam 'branchName'}}' not found in app '{{urlParam 'appId'}}'\"}",
           "latency": 0,
           "statusCode": 404,
@@ -256,15 +256,15 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "r1000004-0000-0000-0000-000000000004",
+      "uuid": "65cbee8c-b4b4-4e9a-8f29-9967f0fa4972",
       "type": "http",
       "documentation": "Retrieve commits on a branch in reverse chronological order. Supports ?limit and ?cursor query params.",
       "method": "get",
       "endpoint": "v1/repositories/:appId/branches/:branchName/commits",
       "responses": [
         {
-          "uuid": "r1r00004-0001-0000-0000-000000000004",
-          "body": "{{setVar 'repo' (find (dataRaw 'repositories') (object appId=(urlParam 'appId')))}}\n{{setVar 'branch' (find (lookup @repo 'branches') (object name=(urlParam 'branchName')))}}\n{{#if @branch}}{\"items\": {{{stringify (lookup @branch 'commits')}}}, \"cursors\": {\"first\": null, \"prev\": null, \"next\": null, \"last\": null}}{{else}}{\"errorCode\":\"BRANCH_NOT_FOUND\",\"errorMessage\":\"Branch '{{urlParam 'branchName'}}' not found\"}{{/if}}",
+          "uuid": "102f31e2-5b7f-4302-97cd-451347011e66",
+          "body": "{\"items\":[{\"id\":\"a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\",\"author\":{\"name\":\"Jean-Luc Picard\",\"email\":\"jean-luc.picard@starfleet.com\"},\"date\":\"2024-03-10T09:00:00Z\",\"message\":\"Release 2.5.0 - warp core stabilization\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-1234\",\"US-1235\"]},{\"id\":\"e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4\",\"author\":{\"name\":\"Geordi La Forge\",\"email\":\"geordi.laforge@starfleet.com\"},\"date\":\"2024-03-09T16:45:00Z\",\"message\":\"Optimize plasma relay algorithms\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-1234\"]},{\"id\":\"f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5\",\"author\":{\"name\":\"Data\",\"email\":\"data.android@starfleet.com\"},\"date\":\"2024-03-08T10:20:00Z\",\"message\":\"Add diagnostic endpoints\",\"mendixVersion\":\"10.5.0\",\"relatedStories\":[\"US-1235\"]}],\"cursors\":{\"first\":null,\"prev\":null,\"next\":null,\"last\":null}}",
           "latency": 0,
           "statusCode": 200,
           "label": "OK - List of commits",
@@ -287,7 +287,7 @@
           "callbacks": []
         },
         {
-          "uuid": "r1r00004-0002-0000-0000-000000000004",
+          "uuid": "5d63c4c5-a30f-41db-b52d-8c6c71d8c710",
           "body": "{\"errorCode\":\"BRANCH_NOT_FOUND\",\"errorMessage\":\"Branch '{{urlParam 'branchName'}}' not found in app '{{urlParam 'appId'}}'\"}",
           "latency": 0,
           "statusCode": 404,
@@ -319,15 +319,15 @@
   "rootChildren": [
     {
       "type": "folder",
-      "uuid": "rf000001-0000-0000-0000-000000000001"
+      "uuid": "a76613cc-7bec-42bc-9f44-97536a3ed82d"
     },
     {
       "type": "folder",
-      "uuid": "rf000002-0000-0000-0000-000000000002"
+      "uuid": "876298fd-aab9-47a8-ac8a-62453197f87d"
     },
     {
       "type": "folder",
-      "uuid": "rf000003-0000-0000-0000-000000000003"
+      "uuid": "a9e98202-8bc0-4127-a206-34a0b8dedfb6"
     }
   ],
   "proxyMode": false,
@@ -363,11 +363,11 @@
   ],
   "data": [
     {
-      "uuid": "rd000001-0000-0000-0000-000000000001",
+      "uuid": "e9a2dbe5-c60a-4cb3-89fd-e3b683693c92",
       "id": "repositories",
       "name": "repositories",
-      "documentation": "Repository data for Star Trek TNG apps. Each entry contains repo info and seeded branches with commits.",
-      "value": "[{\"appId\":\"EnterpriseD\",\"type\":\"git\",\"url\":\"https://git.mendix.com/EnterpriseD.git\",\"branches\":[{\"name\":\"main\",\"latestCommit\":{\"id\":\"a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\",\"author\":{\"name\":\"Jean-Luc Picard\",\"email\":\"jean-luc.picard@starfleet.com\"},\"date\":\"2024-03-10T09:00:00Z\",\"message\":\"Release 2.5.0 - warp core stabilization\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-1234\",\"US-1235\"]}},{\"name\":\"feature/holodeck-diagnostics\",\"latestCommit\":{\"id\":\"b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1\",\"author\":{\"name\":\"Geordi La Forge\",\"email\":\"geordi.laforge@starfleet.com\"},\"date\":\"2024-03-12T14:30:00Z\",\"message\":\"WIP: holodeck safety interlock bypass diagnostics\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-1300\"]}},{\"name\":\"hotfix/shield-matrix\",\"latestCommit\":{\"id\":\"c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2\",\"author\":{\"name\":\"Worf\",\"email\":\"worf.son-of-mogh@starfleet.com\"},\"date\":\"2024-03-11T22:15:00Z\",\"message\":\"Emergency patch: shield matrix frequency calibration\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"BUG-567\"]}},{\"name\":\"release/2.4\",\"latestCommit\":{\"id\":\"d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3\",\"author\":{\"name\":\"William Riker\",\"email\":\"william.riker@starfleet.com\"},\"date\":\"2024-02-20T11:00:00Z\",\"message\":\"Tag 2.4.0 stable release\",\"mendixVersion\":\"10.5.0\",\"relatedStories\":[]}}],\"commits\":{\"main\":[{\"id\":\"a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\",\"author\":{\"name\":\"Jean-Luc Picard\",\"email\":\"jean-luc.picard@starfleet.com\"},\"date\":\"2024-03-10T09:00:00Z\",\"message\":\"Release 2.5.0 - warp core stabilization\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-1234\",\"US-1235\"]},{\"id\":\"e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4\",\"author\":{\"name\":\"Data\",\"email\":\"data.android@starfleet.com\"},\"date\":\"2024-03-09T16:45:00Z\",\"message\":\"Optimize positronic relay algorithms\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-1234\"]},{\"id\":\"f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5\",\"author\":{\"name\":\"Beverly Crusher\",\"email\":\"beverly.crusher@starfleet.com\"},\"date\":\"2024-03-08T10:20:00Z\",\"message\":\"Add medical bay diagnostic endpoints\",\"mendixVersion\":\"10.5.0\",\"relatedStories\":[\"US-1235\"]}]}},{\"appId\":\"WarpCoreMonitor\",\"type\":\"git\",\"url\":\"https://git.mendix.com/WarpCoreMonitor.git\",\"branches\":[{\"name\":\"main\",\"latestCommit\":{\"id\":\"aa1bb2cc3dd4ee5ff6aa7bb8cc9dd0ee1ff2aa3b\",\"author\":{\"name\":\"Geordi La Forge\",\"email\":\"geordi.laforge@starfleet.com\"},\"date\":\"2024-03-15T08:00:00Z\",\"message\":\"Warp core v3.1 - antimatter containment improvements\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-2001\",\"US-2002\"]}},{\"name\":\"feature/plasma-conduits\",\"latestCommit\":{\"id\":\"bb2cc3dd4ee5ff6aa7bb8cc9dd0ee1ff2aa3bb4c\",\"author\":{\"name\":\"Reginald Barclay\",\"email\":\"reg.barclay@starfleet.com\"},\"date\":\"2024-03-14T17:00:00Z\",\"message\":\"Reconfigure plasma conduit flow regulators\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-2010\"]}}]},{\"appId\":\"TacticalSystems\",\"type\":\"git\",\"url\":\"https://git.mendix.com/TacticalSystems.git\",\"branches\":[{\"name\":\"main\",\"latestCommit\":{\"id\":\"cc3dd4ee5ff6aa7bb8cc9dd0ee1ff2aa3bb4cc5d\",\"author\":{\"name\":\"Worf\",\"email\":\"worf.son-of-mogh@starfleet.com\"},\"date\":\"2024-03-13T07:30:00Z\",\"message\":\"Upgrade phaser array targeting algorithms\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-3001\"]}},{\"name\":\"feature/quantum-torpedoes\",\"latestCommit\":{\"id\":\"dd4ee5ff6aa7bb8cc9dd0ee1ff2aa3bb4cc5dd6e\",\"author\":{\"name\":\"Worf\",\"email\":\"worf.son-of-mogh@starfleet.com\"},\"date\":\"2024-03-14T09:45:00Z\",\"message\":\"Implement quantum torpedo tracking module\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-3010\"]}}]},{\"appId\":\"MedicalBay\",\"type\":\"svn\",\"url\":\"https://svn.mendix.com/MedicalBay\",\"branches\":[{\"name\":\"trunk\",\"latestCommit\":{\"id\":\"ee5ff6aa7bb8cc9dd0ee1ff2aa3bb4cc5dd6ee7f\",\"author\":{\"name\":\"Beverly Crusher\",\"email\":\"beverly.crusher@starfleet.com\"},\"date\":\"2024-03-10T13:00:00Z\",\"message\":\"Patient record encryption upgrade\",\"mendixVersion\":\"10.4.0\",\"relatedStories\":[\"US-4001\"]}},{\"name\":\"branches/triage-module\",\"latestCommit\":{\"id\":\"ff6aa7bb8cc9dd0ee1ff2aa3bb4cc5dd6ee7ff8a\",\"author\":{\"name\":\"Katherine Pulaski\",\"email\":\"katherine.pulaski@starfleet.com\"},\"date\":\"2024-03-12T15:30:00Z\",\"message\":\"Add emergency triage workflow automation\",\"mendixVersion\":\"10.4.0\",\"relatedStories\":[\"US-4010\"]}}]},{\"appId\":\"CounselorPortal\",\"type\":\"git\",\"url\":\"https://git.mendix.com/CounselorPortal.git\",\"branches\":[{\"name\":\"main\",\"latestCommit\":{\"id\":\"aa7bb8cc9dd0ee1ff2aa3bb4cc5dd6ee7ff8aa9b\",\"author\":{\"name\":\"Deanna Troi\",\"email\":\"deanna.troi@starfleet.com\"},\"date\":\"2024-03-11T10:00:00Z\",\"message\":\"Improve empathic resonance feedback UI\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-5001\"]}}]}]"
+      "documentation": "Unused — all routes now return static responses.",
+      "value": "[{\"appId\":\"1701d000-ncc1-701d-0000-000000000001\",\"type\":\"git\",\"url\":\"https://git.mendix.com/1701d000-ncc1-701d-0000-000000000001.git\",\"branches\":[{\"name\":\"main\",\"latestCommit\":{\"id\":\"a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\",\"author\":{\"name\":\"Jean-Luc Picard\",\"email\":\"jean-luc.picard@starfleet.com\"},\"date\":\"2024-03-10T09:00:00Z\",\"message\":\"Release 2.5.0 - warp core stabilization\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-1234\",\"US-1235\"]}},{\"name\":\"feature/holodeck-diagnostics\",\"latestCommit\":{\"id\":\"b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1\",\"author\":{\"name\":\"Geordi La Forge\",\"email\":\"geordi.laforge@starfleet.com\"},\"date\":\"2024-03-12T14:30:00Z\",\"message\":\"WIP: holodeck safety interlock bypass diagnostics\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-1300\"]}},{\"name\":\"hotfix/shield-matrix\",\"latestCommit\":{\"id\":\"c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2\",\"author\":{\"name\":\"Worf\",\"email\":\"worf.son-of-mogh@starfleet.com\"},\"date\":\"2024-03-11T22:15:00Z\",\"message\":\"Emergency patch: shield matrix frequency calibration\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"BUG-567\"]}},{\"name\":\"release/2.4\",\"latestCommit\":{\"id\":\"d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3\",\"author\":{\"name\":\"William Riker\",\"email\":\"william.riker@starfleet.com\"},\"date\":\"2024-02-20T11:00:00Z\",\"message\":\"Tag 2.4.0 stable release\",\"mendixVersion\":\"10.5.0\",\"relatedStories\":[]}}],\"commits\":{\"main\":[{\"id\":\"a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\",\"author\":{\"name\":\"Jean-Luc Picard\",\"email\":\"jean-luc.picard@starfleet.com\"},\"date\":\"2024-03-10T09:00:00Z\",\"message\":\"Release 2.5.0 - warp core stabilization\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-1234\",\"US-1235\"]},{\"id\":\"e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4\",\"author\":{\"name\":\"Data\",\"email\":\"data.android@starfleet.com\"},\"date\":\"2024-03-09T16:45:00Z\",\"message\":\"Optimize positronic relay algorithms\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-1234\"]},{\"id\":\"f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5\",\"author\":{\"name\":\"Beverly Crusher\",\"email\":\"beverly.crusher@starfleet.com\"},\"date\":\"2024-03-08T10:20:00Z\",\"message\":\"Add medical bay diagnostic endpoints\",\"mendixVersion\":\"10.5.0\",\"relatedStories\":[\"US-1235\"]}]}},{\"appId\":\"1701d000-ncc1-701d-0000-000000000005\",\"type\":\"git\",\"url\":\"https://git.mendix.com/1701d000-ncc1-701d-0000-000000000005.git\",\"branches\":[{\"name\":\"main\",\"latestCommit\":{\"id\":\"aa1bb2cc3dd4ee5ff6aa7bb8cc9dd0ee1ff2aa3b\",\"author\":{\"name\":\"Geordi La Forge\",\"email\":\"geordi.laforge@starfleet.com\"},\"date\":\"2024-03-15T08:00:00Z\",\"message\":\"Warp core v3.1 - antimatter containment improvements\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-2001\",\"US-2002\"]}},{\"name\":\"feature/plasma-conduits\",\"latestCommit\":{\"id\":\"bb2cc3dd4ee5ff6aa7bb8cc9dd0ee1ff2aa3bb4c\",\"author\":{\"name\":\"Reginald Barclay\",\"email\":\"reg.barclay@starfleet.com\"},\"date\":\"2024-03-14T17:00:00Z\",\"message\":\"Reconfigure plasma conduit flow regulators\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-2010\"]}}]},{\"appId\":\"1701d000-ncc1-701d-0000-000000000012\",\"type\":\"git\",\"url\":\"https://git.mendix.com/1701d000-ncc1-701d-0000-000000000012.git\",\"branches\":[{\"name\":\"main\",\"latestCommit\":{\"id\":\"cc3dd4ee5ff6aa7bb8cc9dd0ee1ff2aa3bb4cc5d\",\"author\":{\"name\":\"Worf\",\"email\":\"worf.son-of-mogh@starfleet.com\"},\"date\":\"2024-03-13T07:30:00Z\",\"message\":\"Upgrade phaser array targeting algorithms\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-3001\"]}},{\"name\":\"feature/quantum-torpedoes\",\"latestCommit\":{\"id\":\"dd4ee5ff6aa7bb8cc9dd0ee1ff2aa3bb4cc5dd6e\",\"author\":{\"name\":\"Worf\",\"email\":\"worf.son-of-mogh@starfleet.com\"},\"date\":\"2024-03-14T09:45:00Z\",\"message\":\"Implement quantum torpedo tracking module\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-3010\"]}}]},{\"appId\":\"1701d000-ncc1-701d-0000-000000000007\",\"type\":\"svn\",\"url\":\"https://svn.mendix.com/1701d000-ncc1-701d-0000-000000000007\",\"branches\":[{\"name\":\"trunk\",\"latestCommit\":{\"id\":\"ee5ff6aa7bb8cc9dd0ee1ff2aa3bb4cc5dd6ee7f\",\"author\":{\"name\":\"Beverly Crusher\",\"email\":\"beverly.crusher@starfleet.com\"},\"date\":\"2024-03-10T13:00:00Z\",\"message\":\"Patient record encryption upgrade\",\"mendixVersion\":\"10.4.0\",\"relatedStories\":[\"US-4001\"]}},{\"name\":\"branches/triage-module\",\"latestCommit\":{\"id\":\"ff6aa7bb8cc9dd0ee1ff2aa3bb4cc5dd6ee7ff8a\",\"author\":{\"name\":\"Katherine Pulaski\",\"email\":\"katherine.pulaski@starfleet.com\"},\"date\":\"2024-03-12T15:30:00Z\",\"message\":\"Add emergency triage workflow automation\",\"mendixVersion\":\"10.4.0\",\"relatedStories\":[\"US-4010\"]}}]},{\"appId\":\"1701d000-ncc1-701d-0000-000000000010\",\"type\":\"git\",\"url\":\"https://git.mendix.com/1701d000-ncc1-701d-0000-000000000010.git\",\"branches\":[{\"name\":\"main\",\"latestCommit\":{\"id\":\"aa7bb8cc9dd0ee1ff2aa3bb4cc5dd6ee7ff8aa9b\",\"author\":{\"name\":\"Deanna Troi\",\"email\":\"deanna.troi@starfleet.com\"},\"date\":\"2024-03-11T10:00:00Z\",\"message\":\"Improve empathic resonance feedback UI\",\"mendixVersion\":\"10.6.0\",\"relatedStories\":[\"US-5001\"]}}]}]"
     }
   ],
   "callbacks": []
