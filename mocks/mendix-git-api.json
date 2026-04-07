@@ -54,7 +54,7 @@
       "responses": [
         {
           "uuid": "2346ad2f-cb33-404c-836c-5d57cf8665ec",
-          "body": "{{~setData 'set' 'workflowRuns' 'pendingRunId' (faker 'string.uuid')~}}{{~setData 'set' 'workflowRuns' 'pendingAppId' (body 'inputs.mendix_app_id')~}}{{~setData 'set' 'workflowRuns' 'pendingProjectId' (body 'inputs.mendix_project_id')~}}{{~setData 'set' 'workflowRuns' 'pendingProcessId' (body 'inputs.mendix_process_id')~}}{{~setData 'set' 'workflowRuns' 'pendingRef' (body 'inputs.mendix_ref')~}}{{~setData 'set' 'workflowRuns' (dataRaw 'workflowRuns' 'pendingRunId') (object run_id=(dataRaw 'workflowRuns' 'pendingRunId') status='queued' workflow_id=(urlParam 'workflow_id') ref=(body 'ref') mendix_app_id=(body 'inputs.mendix_app_id') mendix_process_id=(body 'inputs.mendix_process_id') mendix_project_id=(body 'inputs.mendix_project_id') version=(body 'inputs.version') created_at=(now 'iso'))~}}",
+          "body": "{{~setData 'set' 'workflowRuns' 'pendingRunId' (faker 'string.uuid')~}}{{~setData 'set' 'workflowRuns' 'pendingAppId' (body 'inputs.mendix_app_id')~}}{{~setData 'set' 'workflowRuns' 'pendingProjectId' (body 'inputs.mendix_project_id')~}}{{~setData 'set' 'workflowRuns' 'pendingProcessId' (body 'inputs.mendix_process_id')~}}{{~setData 'set' 'workflowRuns' 'pendingRef' (body 'inputs.mendix_ref')~}}{{~setData 'set' 'workflowRuns' 'pendingConstants' (dataRaw 'appSettings' (concat (body 'inputs.mendix_app_id') '_Constants'))~}}{{~setData 'set' 'workflowRuns' 'pendingScheduledEvents' (dataRaw 'appSettings' (concat (body 'inputs.mendix_app_id') '_ScheduledEvents'))~}}{{~setData 'set' 'workflowRuns' (dataRaw 'workflowRuns' 'pendingRunId') (object run_id=(dataRaw 'workflowRuns' 'pendingRunId') status='queued' workflow_id=(urlParam 'workflow_id') ref=(body 'ref') mendix_app_id=(body 'inputs.mendix_app_id') mendix_process_id=(body 'inputs.mendix_process_id') mendix_project_id=(body 'inputs.mendix_project_id') version=(body 'inputs.version') created_at=(now 'iso'))~}}",
           "latency": 0,
           "statusCode": 204,
           "label": "No Content — workflow dispatch triggered, callback fires after delay",
@@ -407,7 +407,7 @@
           "value": "Basic YXBpdXNLcjpUzXN0QXBwVGVzdEFwcDFAMw=="
         }
       ],
-      "body": "{\"RuntimeVersion\":\"11.6.2\",\"ProjectID\":\"{{dataRaw 'workflowRuns' 'pendingProjectId'}}\",\"ProjectName\":\"{{dataRaw 'workflowRuns' 'pendingAppId'}}\",\"ModelVersion\":\"{{dataRaw 'workflowRuns' 'pendingRef'}}\",\"CommitSha\":\"{{faker 'string.uuid'}}\",\"PackageID\":\"{{faker 'string.uuid'}}\",\"ProcessID\":\"{{dataRaw 'workflowRuns' 'pendingProcessId'}}\",\"Constants\":{{{stringify (dataRaw 'appSettings' (concat (dataRaw 'workflowRuns' 'pendingAppId') '_Constants'))}}},\"CustomSettings\":[],\"ScheduledEvents\":{{{stringify (dataRaw 'appSettings' (concat (dataRaw 'workflowRuns' 'pendingAppId') '_ScheduledEvents'))}}}}",
+      "body": "{\"RuntimeVersion\":\"11.6.2\",\"ProjectID\":\"{{dataRaw 'workflowRuns' 'pendingProjectId'}}\",\"ProjectName\":\"{{dataRaw 'workflowRuns' 'pendingAppId'}}\",\"ModelVersion\":\"{{dataRaw 'workflowRuns' 'pendingRef'}}\",\"CommitSha\":\"{{faker 'string.uuid'}}\",\"PackageID\":\"{{faker 'string.uuid'}}\",\"ProcessID\":\"{{dataRaw 'workflowRuns' 'pendingProcessId'}}\",\"Constants\":{{{stringify (dataRaw 'workflowRuns' 'pendingConstants')}}},\"CustomSettings\":[],\"ScheduledEvents\":{{{stringify (dataRaw 'workflowRuns' 'pendingScheduledEvents')}}}}",
       "bodyType": "DATABUCKET",
       "filePath": "",
       "sendFileAsBody": false,
